@@ -1,8 +1,9 @@
 package edu.hogwarts.springhogwarts.repository;
 
+import edu.hogwarts.springhogwarts.model.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ColorRepository extends JpaRepository<ColorRepository, Long> {
+public interface ColorRepository extends JpaRepository<Color, Long> {
 }
