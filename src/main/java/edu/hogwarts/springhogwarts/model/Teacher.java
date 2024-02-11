@@ -180,5 +180,4 @@ public class Teacher {
         return getFullName();
     }
 
-    //TODO mangler setFullName() og getFullName(), Teacher
 }
