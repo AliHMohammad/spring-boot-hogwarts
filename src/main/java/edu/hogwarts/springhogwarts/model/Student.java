@@ -41,9 +41,12 @@ public class Student {
     private int age;
 
 
+    public Student() {
+    }
+
     public Student(Long id, String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear,
                    int graduationYear,
-                   boolean graduated, Set<Course> courses, House house) {
+                   boolean graduated) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -53,13 +56,10 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
         this.graduationYear = graduationYear;
         this.graduated = graduated;
-        this.courses = courses;
-        this.house = house;
-
     }
 
     public Student(String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
-                   boolean graduated, Set<Course> courses, House house) {
+                   boolean graduated) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -68,12 +68,10 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
         this.graduationYear = graduationYear;
         this.graduated = graduated;
-        this.courses = courses;
-        this.house = house;
     }
 
     public Student(String firstName, String middleName, String lastName, String dateOfBirthString, boolean prefect, int enrollmentYear, int graduationYear,
-                   boolean graduated, Set<Course> courses, House house) {
+                   boolean graduated) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -82,11 +80,6 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
         this.graduationYear = graduationYear;
         this.graduated = graduated;
-        this.courses = courses;
-        this.house = house;
-    }
-
-    public Student() {
     }
 
     public Student(Student other) {
@@ -98,9 +91,8 @@ public class Student {
         this.enrollmentYear = other.enrollmentYear;
         this.graduationYear = other.graduationYear;
         this.graduated = other.graduated;
-        this.courses = other.courses;
-        this.house = other.house;
     }
+
 
     public Long getId() {
         return id;
@@ -181,10 +173,6 @@ public class Student {
 
     public Set<Course> getCourses() {
         return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
     }
 
     public House getHouse() {

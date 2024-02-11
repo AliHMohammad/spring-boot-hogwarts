@@ -23,27 +23,29 @@ public class House {
     @OneToMany(mappedBy = "house")
     private Set<Student> students = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "house")
+    private Set<Teacher> teachers = new HashSet<>();
 
-    public House(Long id, String name, String founder, Set<Color> colors) {
+
+
+    public House() {
+    }
+
+    public House(Long id, String name, String founder) {
         this.id = id;
         this.name = name;
         this.founder = founder;
-        this.colors = colors;
     }
 
-    public House(String name, String founder, Set<Color> colors) {
+    public House(String name, String founder) {
         this.name = name;
         this.founder = founder;
-        this.colors = colors;
-    }
-
-    public House() {
     }
 
     public House(House other) {
         this.name = other.name;
         this.founder = other.founder;
-        this.colors = other.colors;
     }
 
     public Long getId() {

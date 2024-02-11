@@ -58,4 +58,5 @@ public class Color {
     public Set<House> getHouses() {
         return houses;
     }
+
 }
