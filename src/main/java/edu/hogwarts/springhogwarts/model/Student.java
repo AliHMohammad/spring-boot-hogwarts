@@ -37,20 +37,15 @@ public class Student {
     )
     private House house;
 
-    @Transient
-    private int age;
-
 
     public Student() {
     }
 
-    public Student(Long id, String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear,
+    public Student(Long id, String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear,
                    int graduationYear,
                    boolean graduated) {
         this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.prefect = prefect;
         this.enrollmentYear = enrollmentYear;
@@ -58,11 +53,9 @@ public class Student {
         this.graduated = graduated;
     }
 
-    public Student(String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+    public Student(String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
                    boolean graduated) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.prefect = prefect;
         this.enrollmentYear = enrollmentYear;
@@ -70,11 +63,9 @@ public class Student {
         this.graduated = graduated;
     }
 
-    public Student(String firstName, String middleName, String lastName, String dateOfBirthString, boolean prefect, int enrollmentYear, int graduationYear,
+    public Student(String fullName, String dateOfBirthString, boolean prefect, int enrollmentYear, int graduationYear,
                    boolean graduated) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         setDateOfBirth(dateOfBirthString);
         this.prefect = prefect;
         this.enrollmentYear = enrollmentYear;
@@ -100,30 +91,6 @@ public class Student {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public LocalDate getDateOfBirth() {
@@ -187,23 +154,26 @@ public class Student {
         return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 
+    public String getFullName() {
+        return hasMiddleName() ? this.firstName + " " + this.middleName + " " + this.lastName : this.firstName + " " + this.lastName;
+    }
+
+    public boolean hasMiddleName() {
+        return this.middleName != null;
+    }
+
+    public void setFullName(String fullName) {
+        int firstGap = fullName.indexOf(" ");
+        int lastGap = fullName.lastIndexOf(" ");
+
+        this.firstName = fullName.substring(0, firstGap);
+        this.lastName = fullName.substring(lastGap+1);
+        this.middleName = firstGap == lastGap ? null : fullName.substring(firstGap+1, lastGap);
+    }
 
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", prefect=" + prefect +
-                ", enrollmentYear=" + enrollmentYear +
-                ", graduationYear=" + graduationYear +
-                ", graduated=" + graduated +
-                ", courses=" + courses +
-                ", house=" + house +
-                ", age=" + age +
-                '}';
+        return getFullName();
     }
 
     //TODO mangler setFullName() og getFullName(), student

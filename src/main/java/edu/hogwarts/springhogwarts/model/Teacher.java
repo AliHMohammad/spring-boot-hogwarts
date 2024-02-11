@@ -24,9 +24,6 @@ public class Teacher {
     private LocalDate employmentStart;
     private LocalDate employmentEnd;
 
-    @Transient
-    private int age;
-
     @JsonIgnore
     @OneToMany(
             mappedBy = "teacher"
@@ -42,12 +39,10 @@ public class Teacher {
     )
     private House house;
 
-    public Teacher(Long id, String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
+    public Teacher(Long id, String fullName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
                    LocalDate employmentStart, LocalDate employmentEnd) {
         this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.headOfHouse = headOfHouse;
         this.employment = employment;
@@ -55,11 +50,9 @@ public class Teacher {
         this.employmentEnd = employmentEnd;
     }
 
-    public Teacher(String firstName, String middleName, String lastName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
+    public Teacher(String fullName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
                    LocalDate employmentStart, LocalDate employmentEnd) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.headOfHouse = headOfHouse;
         this.employment = employment;
@@ -67,17 +60,16 @@ public class Teacher {
         this.employmentEnd = employmentEnd;
     }
 
-    public Teacher(String firstName, String middleName, String lastName, String dateOfBirthString, boolean headOfHouse, EmploymentType employment,
+    public Teacher(String fullName, String dateOfBirthString, boolean headOfHouse, EmploymentType employment,
                    LocalDate employmentStart, LocalDate employmentEnd) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
+        setFullName(fullName);
         setDateOfBirth(dateOfBirthString);
         this.headOfHouse = headOfHouse;
         this.employment = employment;
         this.employmentStart = employmentStart;
         this.employmentEnd = employmentEnd;
     }
+    //TODO lav ovenstående constructor om så empStart og empEnd er String. Lav tilsvarende Setters.
 
     public Teacher() {
     }
@@ -99,30 +91,6 @@ public class Teacher {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public LocalDate getDateOfBirth() {
@@ -190,22 +158,26 @@ public class Teacher {
         this.house = house;
     }
 
+    public String getFullName() {
+        return hasMiddleName() ? this.firstName + " " + this.middleName + " " + this.lastName : this.firstName + " " + this.lastName;
+    }
+
+    public boolean hasMiddleName() {
+        return this.middleName != null;
+    }
+
+    public void setFullName(String fullName) {
+        int firstGap = fullName.indexOf(" ");
+        int lastGap = fullName.lastIndexOf(" ");
+
+        this.firstName = fullName.substring(0, firstGap);
+        this.lastName = fullName.substring(lastGap+1);
+        this.middleName = firstGap == lastGap ? null : fullName.substring(firstGap+1, lastGap);
+    }
+
     @Override
     public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", headOfHouse=" + headOfHouse +
-                ", employment=" + employment +
-                ", employmentStart=" + employmentStart +
-                ", employmentEnd=" + employmentEnd +
-                ", age=" + age +
-                ", courses=" + courses +
-                ", house=" + house +
-                '}';
+        return getFullName();
     }
 
     //TODO mangler setFullName() og getFullName(), Teacher
