@@ -35,30 +35,6 @@ public class Course {
     private Set<Student> students = new HashSet<>();
 
 
-
-    public Course() {
-
-    }
-
-    public Course(Long id, String subject, int schoolyear, boolean current) {
-        this.id = id;
-        this.subject = subject;
-        this.schoolyear = schoolyear;
-        this.current = current;
-    }
-
-    public Course(String subject, int schoolyear, boolean current) {
-        this.subject = subject;
-        this.schoolyear = schoolyear;
-        this.current = current;
-    }
-
-    public Course(Course other) {
-        this.subject = other.subject;
-        this.schoolyear = other.schoolyear;
-        this.current = other.current;
-    }
-
     public Long getId() {
         return id;
     }
@@ -107,15 +83,4 @@ public class Course {
         this.teacher = teacher;
     }
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", subject='" + subject + '\'' +
-                ", schoolyear=" + schoolyear +
-                ", current=" + current +
-                ", teacher=" + teacher +
-                ", students=" + students +
-                '}';
-    }
 }

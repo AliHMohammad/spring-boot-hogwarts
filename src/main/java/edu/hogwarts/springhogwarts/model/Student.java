@@ -38,22 +38,10 @@ public class Student {
     private House house;
 
 
-    public Student() {
-    }
 
-    public Student(Long id, String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear,
-                   int graduationYear,
-                   boolean graduated) {
-        this.id = id;
-        setFullName(fullName);
-        this.dateOfBirth = dateOfBirth;
-        this.prefect = prefect;
-        this.enrollmentYear = enrollmentYear;
-        this.graduationYear = graduationYear;
-        this.graduated = graduated;
-    }
-
-    public Student(String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+    //Spring-boot ved åbenbart automatisk hvordan man assigner navnene vha. setFullName helt selvstændigt.
+    //Defor ingen behov for nedenstående.
+    /*public Student(String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
                    boolean graduated) {
         setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
@@ -61,28 +49,7 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
         this.graduationYear = graduationYear;
         this.graduated = graduated;
-    }
-
-    public Student(String fullName, String dateOfBirthString, boolean prefect, int enrollmentYear, int graduationYear,
-                   boolean graduated) {
-        setFullName(fullName);
-        setDateOfBirth(dateOfBirthString);
-        this.prefect = prefect;
-        this.enrollmentYear = enrollmentYear;
-        this.graduationYear = graduationYear;
-        this.graduated = graduated;
-    }
-
-    public Student(Student other) {
-        this.firstName = other.firstName;
-        this.middleName = other.middleName;
-        this.lastName = other.lastName;
-        this.dateOfBirth = other.dateOfBirth;
-        this.prefect = other.prefect;
-        this.enrollmentYear = other.enrollmentYear;
-        this.graduationYear = other.graduationYear;
-        this.graduated = other.graduated;
-    }
+    }*/
 
 
     public Long getId() {
@@ -101,10 +68,6 @@ public class Student {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirthString) {
-        String[] dateArr = dateOfBirthString.split("-");
-        this.dateOfBirth = LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
-    }
 
     public boolean isPrefect() {
         return prefect;
@@ -171,10 +134,15 @@ public class Student {
         this.middleName = firstGap == lastGap ? null : fullName.substring(firstGap+1, lastGap);
     }
 
-    @Override
-    public String toString() {
-        return getFullName();
+    public String getFirstName() {
+        return firstName;
     }
 
-    //TODO mangler setFullName() og getFullName(), student
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }

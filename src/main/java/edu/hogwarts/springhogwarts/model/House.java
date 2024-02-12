@@ -29,24 +29,6 @@ public class House {
 
 
 
-    public House() {
-    }
-
-    public House(Long id, String name, String founder) {
-        this.id = id;
-        this.name = name;
-        this.founder = founder;
-    }
-
-    public House(String name, String founder) {
-        this.name = name;
-        this.founder = founder;
-    }
-
-    public House(House other) {
-        this.name = other.name;
-        this.founder = other.founder;
-    }
 
     public Long getId() {
         return id;
@@ -88,14 +70,4 @@ public class House {
         this.students.add(student);
     }
 
-    @Override
-    public String toString() {
-        return "House{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", founder='" + founder + '\'' +
-                ", colors=" + colors +
-                ", students=" + students +
-                '}';
-    }
 }

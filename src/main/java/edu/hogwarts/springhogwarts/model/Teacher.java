@@ -39,18 +39,10 @@ public class Teacher {
     )
     private House house;
 
-    public Teacher(Long id, String fullName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
-                   LocalDate employmentStart, LocalDate employmentEnd) {
-        this.id = id;
-        setFullName(fullName);
-        this.dateOfBirth = dateOfBirth;
-        this.headOfHouse = headOfHouse;
-        this.employment = employment;
-        this.employmentStart = employmentStart;
-        this.employmentEnd = employmentEnd;
-    }
 
-    public Teacher(String fullName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
+    //Spring-boot ved åbenbart automatisk hvordan man assigner navnene vha. setFullName helt selvstændigt.
+    //Defor ingen behov for nedenstående.
+    /*public Teacher(String fullName, LocalDate dateOfBirth, boolean headOfHouse, EmploymentType employment,
                    LocalDate employmentStart, LocalDate employmentEnd) {
         setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
@@ -58,32 +50,7 @@ public class Teacher {
         this.employment = employment;
         this.employmentStart = employmentStart;
         this.employmentEnd = employmentEnd;
-    }
-
-    public Teacher(String fullName, String dateOfBirthString, boolean headOfHouse, EmploymentType employment,
-                   LocalDate employmentStart, LocalDate employmentEnd) {
-        setFullName(fullName);
-        setDateOfBirth(dateOfBirthString);
-        this.headOfHouse = headOfHouse;
-        this.employment = employment;
-        this.employmentStart = employmentStart;
-        this.employmentEnd = employmentEnd;
-    }
-    //TODO lav ovenstående constructor om så empStart og empEnd er String. Lav tilsvarende Setters.
-
-    public Teacher() {
-    }
-
-    public Teacher(Teacher other) {
-        this.firstName = other.firstName;
-        this.middleName = other.middleName;
-        this.lastName = other.lastName;
-        this.dateOfBirth = other.dateOfBirth;
-        this.headOfHouse = other.headOfHouse;
-        this.employment = other.employment;
-        this.employmentStart = other.employmentStart;
-        this.employmentEnd = other.employmentEnd;
-    }
+    }*/
 
     public Long getId() {
         return id;
@@ -99,11 +66,6 @@ public class Teacher {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirthString) {
-        String[] dateArr = dateOfBirthString.split("-");
-        this.dateOfBirth = LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
     }
 
     public boolean isHeadOfHouse() {
@@ -175,9 +137,15 @@ public class Teacher {
         this.middleName = firstGap == lastGap ? null : fullName.substring(firstGap+1, lastGap);
     }
 
-    @Override
-    public String toString() {
-        return getFullName();
+    public String getFirstName() {
+        return firstName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }

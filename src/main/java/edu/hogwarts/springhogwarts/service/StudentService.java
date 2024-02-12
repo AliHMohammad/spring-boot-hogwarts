@@ -22,8 +22,7 @@ public class StudentService {
     }
 
     public Student addNewStudent(Student student) {
-        Student studentToCreate = new Student(student);
-        return studentRepository.save(studentToCreate);
+        return studentRepository.save(student);
     }
 
     public void deleteStudent(long studentId) {

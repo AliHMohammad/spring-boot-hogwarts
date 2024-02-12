@@ -23,22 +23,6 @@ public class Color {
     )
     Set<House> houses = new HashSet<>();
 
-    public Color(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Color(String name) {
-        this.name = name;
-    }
-
-    public Color() {
-    }
-
-    public Color(Color other) {
-        this.name = other.name;
-    }
-
     public Long getId() {
         return id;
     }
