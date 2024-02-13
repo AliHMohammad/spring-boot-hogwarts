@@ -42,7 +42,6 @@ INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, 
 INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (2, 'Harry', null, 'Potter', '1980-07-31', 1991, 1998, true, true);
 INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (3, 'Hannah', null, 'Abbott', '1979-09-01', 1991, 1998, true, false);
 
-
 /* TEACHERS */
 
 INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (2, 'Albus', 'Percival Wulfric Brian', 'Dumbledore', '1881-08-16', null, '1966-02-12', null, false);
@@ -67,4 +66,3 @@ INSERT INTO hogwarts_db.students_courses (student_id, course_id) VALUES (5, 2);
 INSERT INTO hogwarts_db.students_courses (student_id, course_id) VALUES (1, 1);
 INSERT INTO hogwarts_db.students_courses (student_id, course_id) VALUES (1, 2);
 INSERT INTO hogwarts_db.students_courses (student_id, course_id) VALUES (6, 2);
-

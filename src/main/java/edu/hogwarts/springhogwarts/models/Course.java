@@ -15,18 +15,14 @@ public class Course {
     private int schoolyear;
     private boolean current;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne()
     @JoinColumn(
             name = "teacher_id",
             referencedColumnName = "id"
     )
     private Teacher teacher;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany()
     @JoinTable(
             name = "students_courses",
             joinColumns = @JoinColumn(name = "course_id"),

@@ -29,14 +29,13 @@ public class Student {
     private Set<Course> courses = new HashSet<>();
 
     @ManyToOne(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.REMOVE
     )
     @JoinColumn(
             name = "house_id",
             referencedColumnName = "id"
     )
     private House house;
-
 
 
     //Spring-boot ved åbenbart automatisk hvordan man assigner navnene vha. setFullName helt selvstændigt.
@@ -103,6 +102,18 @@ public class Student {
 
     public Set<Course> getCourses() {
         return courses;
+    }
+
+    public void removeCourse(Course course) {
+        course.getStudents().remove(this);
+    }
+
+    public void addCourse(Course course) {
+        course.getStudents().add(this);
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
 
     public House getHouse() {

@@ -20,6 +20,8 @@ public class Teacher {
     private String lastName;
     private LocalDate dateOfBirth;
     private boolean headOfHouse;
+
+    @Enumerated(EnumType.STRING)
     private EmploymentType employment;
     private LocalDate employmentStart;
     private LocalDate employmentEnd;
@@ -30,9 +32,7 @@ public class Teacher {
     )
     private Set<Course> courses = new HashSet<>();
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @ManyToOne()
     @JoinColumn(
             name = "house_id",
             referencedColumnName = "id"
@@ -112,10 +112,6 @@ public class Teacher {
         return house;
     }
 
-    public void assignCourse(Course course) {
-        this.courses.add(course);
-    }
-
     public void setHouse(House house) {
         this.house = house;
     }
@@ -147,5 +143,13 @@ public class Teacher {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void removeCourse(Course course) {
+        course.setTeacher(null);
+    }
+
+    public void assignCourse(Course course) {
+        course.setTeacher(this);
     }
 }

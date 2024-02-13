@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.services;
 
+import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -29,10 +30,16 @@ public class StudentService {
         //Vi returnerer det slettede person til frontend, for at at vise, hvad der er blevet slettet
         Optional<Student> studentInDb = studentRepository.findById(studentId);
 
-        if (studentInDb.isPresent()) {
-            studentRepository.delete(studentInDb.get());
+        if (studentInDb.isEmpty()) {
+            return studentInDb;
         }
 
+        for (Course course : studentInDb.get().getCourses()) {
+            studentInDb.get().removeCourse(course);
+        }
+
+        studentInDb.get().setHouse(null);
+        studentRepository.delete(studentInDb.get());
         return studentInDb;
     }
 
@@ -53,6 +60,7 @@ public class StudentService {
         studentInDb.get().setGraduationYear(updatedStudent.getGraduationYear());
         studentInDb.get().setGraduated(updatedStudent.isGraduated());
         studentInDb.get().setPrefect(updatedStudent.isPrefect());
+        studentInDb.get().setCourses(updatedStudent.getCourses());
 
         return studentInDb;
     }

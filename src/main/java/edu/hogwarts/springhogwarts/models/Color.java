@@ -13,9 +13,7 @@ public class Color {
     private Long id;
     private String name;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany()
     @JoinTable(
             name = "houses_colors",
             joinColumns = @JoinColumn(name = "color_id"),
