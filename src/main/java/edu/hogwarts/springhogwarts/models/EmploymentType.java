@@ -1,4 +1,4 @@
-package edu.hogwarts.springhogwarts.model;
+package edu.hogwarts.springhogwarts.models;
 
 public enum EmploymentType {
     Tenured,

@@ -1,4 +1,4 @@
-package edu.hogwarts.springhogwarts.model;
+package edu.hogwarts.springhogwarts.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

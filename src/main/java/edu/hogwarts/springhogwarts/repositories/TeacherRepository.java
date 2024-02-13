@@ -1,6 +1,6 @@
-package edu.hogwarts.springhogwarts.repository;
+package edu.hogwarts.springhogwarts.repositories;
 
-import edu.hogwarts.springhogwarts.model.Teacher;
+import edu.hogwarts.springhogwarts.models.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
