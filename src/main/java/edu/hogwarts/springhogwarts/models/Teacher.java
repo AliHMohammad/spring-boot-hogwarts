@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -151,5 +152,20 @@ public class Teacher {
 
     public void assignCourse(Course course) {
         course.setTeacher(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teacher teacher = (Teacher) o;
+        return Objects.equals(getFirstName(), teacher.getFirstName()) && Objects.equals(getMiddleName(),
+                teacher.getMiddleName()) && Objects.equals(getLastName(), teacher.getLastName()) && Objects.equals(getDateOfBirth(),
+                teacher.getDateOfBirth());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getMiddleName(), getLastName(), getDateOfBirth());
     }
 }

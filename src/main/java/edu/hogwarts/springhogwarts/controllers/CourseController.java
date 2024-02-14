@@ -2,13 +2,13 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.services.CourseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/courses")
@@ -69,4 +69,30 @@ public class CourseController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{courseId}/teachers/{teacherId}")
+    public ResponseEntity<Object> removeTeacherFromCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
+        try {
+            Course course = courseService.removeTeacherFromCourse(courseId, teacherId);
+            return ResponseEntity.ok(course);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{courseId}/students/{studentId}")
+    public ResponseEntity<Object> removeStudentFromCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
+        try {
+            Course course = courseService.removeStudentFromCourse(courseId, studentId);
+            return ResponseEntity.ok(course);
+        } catch(Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }

@@ -77,12 +77,21 @@ public class Course {
     }
 
     public void removeStudent(Student student) {
+        if (!this.students.contains(student)) throw new IllegalStateException("Student is not enrolled this course");
+
         this.students.remove(student);
-        student.getCourses().remove(this);
     }
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public void removeTeacher(Teacher teacher) {
+        if (this.teacher == null) throw new IllegalStateException("Teacher was never assigned this course");
+
+        if (this.teacher.equals(teacher)) {
+            setTeacher(null);
+        }
     }
 
 }
