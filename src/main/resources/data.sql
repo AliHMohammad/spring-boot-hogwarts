@@ -48,7 +48,7 @@ INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, d
 INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (2, 'Minerva', null, 'McGonegall', '1890-10-04', null, '1950-06-22', null, true);
 INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (3, 'Pomona', null, 'Sprout', '1910-05-15', null, '1955-10-05', null, true);
 INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (4, 'Filius', null, 'Flitwick', '1958-10-17', null, '1978-11-20', null, true);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (1, 'Severus', null, 'Snape', '1960-01-09', null, '1980-12-22', null, true);
+INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (1, 'Severus', null, 'Snape', '1960-01-09', null, '1980-12-22', '1990-10-13', true);
 INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (1, 'Horace', null, 'Slughorn', '1913-04-28', null, '2000-12-12', null, false);
 
 /* COURSES */

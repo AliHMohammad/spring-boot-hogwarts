@@ -35,7 +35,9 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
-        return courseRepository.save(course);
+        Course createdCourse = courseRepository.save(course);
+        System.out.println(createdCourse);
+        return createdCourse;
     }
 
     @Transactional
@@ -89,5 +91,55 @@ public class CourseService {
         course.removeStudent(student);
 
         return courseRepository.save(course);
+    }
+
+    public Course assignTeacherToCourse(long courseId, long teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Teacher not found");
+                });
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Course not found");
+                });
+
+        course.setTeacher(teacher);
+
+        return courseRepository.save(course);
+    }
+
+    public Course enrollStudentToCourse(long courseId, long studentId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Student not found");
+                });
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Course not found");
+                });
+
+        course.assignStudent(student);
+
+        return courseRepository.save(course);
+    }
+
+    public Teacher getTeacherAssignedToCourse(long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Course not found");
+                });
+
+        return course.getTeacher();
+    }
+
+    public List<Student> getStudentsEnrolledInCourse(long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> {
+                    throw new IllegalStateException("Course not found");
+                });
+
+        return course.getStudents().stream().toList();
     }
 }

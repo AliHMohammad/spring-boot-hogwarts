@@ -101,10 +101,6 @@ public class Teacher {
         this.employmentEnd = employmentEnd;
     }
 
-    public int getAge() {
-        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
-    }
-
     public Set<Course> getCourses() {
         return courses;
     }

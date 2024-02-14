@@ -123,10 +123,6 @@ public class Student {
         this.house = house;
     }
 
-    public int getAge() {
-        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
-    }
-
     public String getFullName() {
         return hasMiddleName() ? this.firstName + " " + this.middleName + " " + this.lastName : this.firstName + " " + this.lastName;
     }

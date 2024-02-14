@@ -1,6 +1,8 @@
 package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.models.Course;
+import edu.hogwarts.springhogwarts.models.Student;
+import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,35 @@ public class CourseController {
         return ResponseEntity.ok(course.get());
     }
 
+    @GetMapping("/{courseId}/teachers")
+    public ResponseEntity<Object> getTeacherAssignedToCourse(@PathVariable("courseId") long courseId) {
+        try {
+            Teacher teacher = courseService.getTeacherAssignedToCourse(courseId);
+
+            return ResponseEntity.ok(teacher);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+    @GetMapping("/{courseId}/students")
+    public ResponseEntity<Object> getStudentsEnrolledInCourse(@PathVariable("courseId") long courseId) {
+        try {
+            List<Student> students = courseService.getStudentsEnrolledInCourse(courseId);
+
+            return ResponseEntity.ok(students);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
@@ -56,9 +87,29 @@ public class CourseController {
         return ResponseEntity.ok(updatedCourse.get());
     }
 
-    //PUT teacher and student in course
+    @PutMapping("/{courseId}/teachers/{teacherId}")
+    public ResponseEntity<Object> assignTeacherToCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
+        try {
+            return ResponseEntity.ok(courseService.assignTeacherToCourse(courseId, teacherId));
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
 
-    //DELETE teacher, student from course
+    @PutMapping("/{courseId}/students/{studentId}")
+    public ResponseEntity<Object> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
+        try {
+            return ResponseEntity.ok(courseService.enrollStudentToCourse(courseId, studentId));
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Course> deleteCourse(@PathVariable("courseId") long id) {
