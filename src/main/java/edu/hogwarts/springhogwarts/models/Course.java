@@ -73,7 +73,10 @@ public class Course {
 
     public void assignStudent(Student student) {
         this.students.add(student);
+        student.getCourses().add(this);
     }
+
+    //public void removeStudent()
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;

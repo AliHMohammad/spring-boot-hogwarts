@@ -42,6 +42,8 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> registerNewStudent(@RequestBody Student student) {
+        System.out.println(student);
+
         Student createdStudent = studentService.addNewStudent(student);
 
         //Vi bygger en location til response header

@@ -50,7 +50,6 @@ public class Student {
         this.graduated = graduated;
     }*/
 
-
     public Long getId() {
         return id;
     }
@@ -155,5 +154,10 @@ public class Student {
 
     public String getLastName() {
         return lastName;
+    }
+
+    @Override
+    public String toString() {
+        return getFullName() + "   courses: " + getCourses();
     }
 }

@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.services;
 
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
+import edu.hogwarts.springhogwarts.repositories.CourseRepository;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
 
     public List<Student> getStudents() {
@@ -23,7 +26,14 @@ public class StudentService {
     }
 
     public Student addNewStudent(Student student) {
-        return studentRepository.save(student);
+
+        for (Course course : student.getCourses()){
+            course.assignStudent(student);
+        }
+
+        studentRepository.save(student);
+
+        return student;
     }
 
     public Optional<Student> deleteStudent(long studentId) {
