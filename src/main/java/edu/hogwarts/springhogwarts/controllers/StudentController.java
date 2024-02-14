@@ -53,7 +53,7 @@ public class StudentController {
                 .buildAndExpand(createdStudent.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(createdStudent);
 
     }
 

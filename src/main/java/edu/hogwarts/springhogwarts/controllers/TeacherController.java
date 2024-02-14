@@ -47,7 +47,7 @@ public class TeacherController {
                 .buildAndExpand(createdTeacher.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(createdTeacher);
     }
 
     @DeleteMapping(path = "/{teacherId}")
