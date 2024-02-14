@@ -158,6 +158,18 @@ public class Student {
 
     @Override
     public String toString() {
-        return getFullName() + "   courses: " + getCourses();
+        return "Student{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", prefect=" + prefect +
+                ", enrollmentYear=" + enrollmentYear +
+                ", graduationYear=" + graduationYear +
+                ", graduated=" + graduated +
+                ", courses=" + courses +
+                ", house=" + house +
+                '}';
     }
 }

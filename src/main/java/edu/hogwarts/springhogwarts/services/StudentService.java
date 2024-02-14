@@ -27,9 +27,9 @@ public class StudentService {
 
     public Student addNewStudent(Student student) {
 
-        for (Course course : student.getCourses()){
+        /*for (Course course : student.getCourses()){
             course.assignStudent(student);
-        }
+        }*/
 
         studentRepository.save(student);
 
