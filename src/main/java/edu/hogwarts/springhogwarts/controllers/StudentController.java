@@ -30,20 +30,13 @@ public class StudentController {
 
     @GetMapping("/{studentId}")
     public ResponseEntity<Student> getSingleStudent(@PathVariable("studentId") long id) {
-
         Optional<Student> studentFound = studentService.getSingleStudent(id);
 
-        if (studentFound.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(studentFound.get());
+        return ResponseEntity.of(studentFound);
     }
 
     @PostMapping
     public ResponseEntity<Student> registerNewStudent(@RequestBody Student student) {
-        System.out.println(student);
-
         Student createdStudent = studentService.addNewStudent(student);
 
         //Vi bygger en location til response header
@@ -61,17 +54,13 @@ public class StudentController {
     public ResponseEntity<Student> deleteStudent(@PathVariable("studentId") long id) {
         Optional<Student> studentDeleted = studentService.deleteStudent(id);
 
-        if (studentDeleted.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(studentDeleted.get());
+        return ResponseEntity.of(studentDeleted);
     }
 
     @PutMapping(path = "/{studentId}")
     public ResponseEntity<Student> updateStudent(@PathVariable("studentId") long id, @RequestBody Student updatedStudent) {
         Optional<Student> student = studentService.updateStudent(id, updatedStudent);
 
-        if (student.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(student.get());
+        return ResponseEntity.of(student);
     }
 }

@@ -31,9 +31,7 @@ public class CourseController {
     public ResponseEntity<Course> getSingleCourse(@PathVariable("courseId") long id) {
         Optional<Course> course = courseService.getSingleCourse(id);
 
-        if (course.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(course.get());
+        return ResponseEntity.of(course);
     }
 
     @GetMapping("/{courseId}/teachers")
@@ -82,9 +80,7 @@ public class CourseController {
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") long id) {
         Optional<Course> updatedCourse = courseService.updateCourse(course, id);
 
-        if (updatedCourse.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(updatedCourse.get());
+        return ResponseEntity.of(updatedCourse);
     }
 
     @PutMapping("/{courseId}/teachers/{teacherId}")

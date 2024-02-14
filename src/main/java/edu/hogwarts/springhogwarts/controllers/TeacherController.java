@@ -29,11 +29,7 @@ public class TeacherController {
     public ResponseEntity<Teacher> getSingleTeacher(@PathVariable("teacherId") long id) {
         Optional<Teacher> teacherInDb = teacherService.getSingleTeacher(id);
 
-        if (teacherInDb.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(teacherInDb.get());
+        return ResponseEntity.of(teacherInDb);
     }
 
     @PostMapping
@@ -54,17 +50,13 @@ public class TeacherController {
     public ResponseEntity<Teacher> deleteTeacher(@PathVariable("teacherId") long id) {
         Optional<Teacher> teacherDeleted = teacherService.deleteTeacher(id);
 
-        if (teacherDeleted.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(teacherDeleted.get());
+        return ResponseEntity.of(teacherDeleted);
     }
 
     @PutMapping(path = "/{teacherId}")
     public ResponseEntity<Teacher> updateTeacher(@PathVariable("teacherId") long id, @RequestBody Teacher teacher) {
         Optional<Teacher> updatedTeacher = teacherService.updateTeacher(id, teacher);
 
-        if (updatedTeacher.isEmpty()) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(updatedTeacher.get());
+        return ResponseEntity.of(updatedTeacher);
     }
 }
