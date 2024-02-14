@@ -42,4 +42,11 @@ public class CourseService {
 
         return courseInDb;
     }
+
+    public void deleteCourse(long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Could not find course"));
+
+        courseRepository.delete(course);
+    }
 }

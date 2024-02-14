@@ -58,5 +58,15 @@ public class CourseController {
 
     //PUT teacher and student in course
 
-    //DELETE course, and teacher, student from course
+    //DELETE teacher, student from course
+
+    @DeleteMapping("/{courseId}")
+    public ResponseEntity<Course> deleteCourse(@PathVariable("courseId") long id) {
+        try {
+            courseService.deleteCourse(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
