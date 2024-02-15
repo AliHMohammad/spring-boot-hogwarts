@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.services.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> registerNewStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> registerNewStudent(@Valid @RequestBody Student student) {
         Student createdStudent = studentService.addNewStudent(student);
 
         //Vi bygger en location til response header
