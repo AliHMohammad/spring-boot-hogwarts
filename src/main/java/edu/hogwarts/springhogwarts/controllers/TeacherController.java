@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +33,7 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<Teacher> registerNewTeacher(@RequestBody Teacher teacher) {
+    public ResponseEntity<Teacher> registerNewTeacher(@Valid @RequestBody Teacher teacher) {
         Teacher createdTeacher = teacherService.createTeacher(teacher);
 
         //Vi bygger en location til response header
@@ -52,7 +53,7 @@ public class TeacherController {
     }
 
     @PutMapping(path = "/{teacherId}")
-    public ResponseEntity<Teacher> updateTeacher(@PathVariable("teacherId") long id, @RequestBody Teacher teacher) {
+    public ResponseEntity<Teacher> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody Teacher teacher) {
         Optional<Teacher> updatedTeacher = teacherService.updateTeacher(id, teacher);
         return ResponseEntity.of(updatedTeacher);
     }

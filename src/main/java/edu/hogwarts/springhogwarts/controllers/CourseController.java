@@ -4,6 +4,7 @@ import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -48,7 +49,7 @@ public class CourseController {
 
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(@RequestBody Course course) {
+    public ResponseEntity<Course> createCourse(@Valid @RequestBody Course course) {
         Course createdCourse = courseService.createCourse(course);
 
         URI location = ServletUriComponentsBuilder
@@ -61,7 +62,7 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") long id) {
+    public ResponseEntity<Course> updateCourse(@Valid @RequestBody Course course, @PathVariable("courseId") long id) {
         Course updatedCourse = courseService.updateCourse(course, id);
         return ResponseEntity.ok(updatedCourse);
     }
