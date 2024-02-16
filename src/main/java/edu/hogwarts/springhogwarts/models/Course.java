@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
