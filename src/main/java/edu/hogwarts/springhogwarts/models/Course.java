@@ -1,6 +1,8 @@
 package edu.hogwarts.springhogwarts.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +13,11 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "subject must not be blank")
     private String subject;
+
+    @Min(value = 1800, message = "schoolyear must be later than 1800")
     private int schoolyear;
     private boolean current;
 

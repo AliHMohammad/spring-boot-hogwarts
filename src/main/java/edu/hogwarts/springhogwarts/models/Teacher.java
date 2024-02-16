@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -34,6 +35,8 @@ public class Teacher {
 
     @Enumerated(EnumType.STRING)
     private EmploymentType employment;
+
+    @PastOrPresent(message = "employmentStart must be past or present")
     private LocalDate employmentStart;
     private LocalDate employmentEnd;
 
