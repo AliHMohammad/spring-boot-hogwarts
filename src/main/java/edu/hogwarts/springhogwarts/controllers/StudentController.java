@@ -32,7 +32,6 @@ public class StudentController {
     @GetMapping("/{studentId}")
     public ResponseEntity<Student> getSingleStudent(@PathVariable("studentId") long id) {
         Optional<Student> studentFound = studentService.getSingleStudent(id);
-
         return ResponseEntity.of(studentFound);
     }
 
@@ -48,20 +47,17 @@ public class StudentController {
                 .toUri();
 
         return ResponseEntity.created(location).body(createdStudent);
-
     }
 
     @DeleteMapping(path = "/{studentId}")
     public ResponseEntity<Student> deleteStudent(@PathVariable("studentId") long id) {
         Optional<Student> studentDeleted = studentService.deleteStudent(id);
-
         return ResponseEntity.of(studentDeleted);
     }
 
     @PutMapping(path = "/{studentId}")
     public ResponseEntity<Student> updateStudent(@PathVariable("studentId") long id, @RequestBody Student updatedStudent) {
         Optional<Student> student = studentService.updateStudent(id, updatedStudent);
-
         return ResponseEntity.of(student);
     }
 }

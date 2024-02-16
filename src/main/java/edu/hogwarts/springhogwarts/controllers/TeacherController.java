@@ -28,7 +28,6 @@ public class TeacherController {
     @GetMapping("/{teacherId}")
     public ResponseEntity<Teacher> getSingleTeacher(@PathVariable("teacherId") long id) {
         Optional<Teacher> teacherInDb = teacherService.getSingleTeacher(id);
-
         return ResponseEntity.of(teacherInDb);
     }
 
@@ -49,14 +48,12 @@ public class TeacherController {
     @DeleteMapping(path = "/{teacherId}")
     public ResponseEntity<Teacher> deleteTeacher(@PathVariable("teacherId") long id) {
         Optional<Teacher> teacherDeleted = teacherService.deleteTeacher(id);
-
         return ResponseEntity.of(teacherDeleted);
     }
 
     @PutMapping(path = "/{teacherId}")
     public ResponseEntity<Teacher> updateTeacher(@PathVariable("teacherId") long id, @RequestBody Teacher teacher) {
         Optional<Teacher> updatedTeacher = teacherService.updateTeacher(id, teacher);
-
         return ResponseEntity.of(updatedTeacher);
     }
 }

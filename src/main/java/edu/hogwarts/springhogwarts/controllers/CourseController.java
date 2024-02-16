@@ -62,8 +62,8 @@ public class CourseController {
 
     @PutMapping("/{courseId}")
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") long id) {
-        Optional<Course> updatedCourse = courseService.updateCourse(course, id);
-        return ResponseEntity.of(updatedCourse);
+        Course updatedCourse = courseService.updateCourse(course, id);
+        return ResponseEntity.ok(updatedCourse);
     }
 
     @PutMapping("/{courseId}/teachers/{teacherId}")
@@ -75,8 +75,6 @@ public class CourseController {
     public ResponseEntity<Object> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
         return ResponseEntity.ok(courseService.enrollStudentToCourse(courseId, studentId));
     }
-
-
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Course> deleteCourse(@PathVariable("courseId") long id) {

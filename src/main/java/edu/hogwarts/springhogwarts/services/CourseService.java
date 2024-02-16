@@ -40,14 +40,13 @@ public class CourseService {
     }
 
     @Transactional
-    public Optional<Course> updateCourse(Course course, long id) {
-        Optional<Course> courseInDb = courseRepository.findById(id);
+    public Course updateCourse(Course course, long id) {
+        Course courseInDb = courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        if (courseInDb.isEmpty()) return courseInDb;
-
-        courseInDb.get().setCurrent(course.isCurrent());
-        courseInDb.get().setSchoolyear(course.getSchoolyear());
-        courseInDb.get().setSubject(course.getSubject());
+        courseInDb.setCurrent(course.isCurrent());
+        courseInDb.setSchoolyear(course.getSchoolyear());
+        courseInDb.setSubject(course.getSubject());
 
         return courseInDb;
     }
@@ -56,21 +55,16 @@ public class CourseService {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find course"));
 
-
         courseRepository.delete(course);
     }
 
     public Course removeTeacherFromCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Teacher not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.removeTeacher(teacher);
 
@@ -80,14 +74,10 @@ public class CourseService {
 
     public Course removeStudentFromCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Student not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.removeStudent(student);
 
@@ -96,14 +86,10 @@ public class CourseService {
 
     public Course assignTeacherToCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Teacher not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.setTeacher(teacher);
 
@@ -112,14 +98,10 @@ public class CourseService {
 
     public Course enrollStudentToCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Student not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.assignStudent(student);
 
@@ -128,18 +110,14 @@ public class CourseService {
 
     public Teacher getTeacherAssignedToCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         return course.getTeacher();
     }
 
     public List<Student> getStudentsEnrolledInCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         return course.getStudents().stream().toList();
     }
