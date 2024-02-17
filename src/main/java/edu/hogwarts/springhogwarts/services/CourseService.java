@@ -55,6 +55,12 @@ public class CourseService {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find course"));
 
+        for (Student student :
+                course.getStudents()) {
+            student.removeCourse(course);
+        }
+
+        course.getTeacher().removeCourse(course);
         courseRepository.delete(course);
     }
 

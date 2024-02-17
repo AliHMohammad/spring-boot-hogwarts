@@ -4,6 +4,7 @@ import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.repositories.CourseRepository;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +15,10 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
-    private final CourseRepository courseRepository;
 
-    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
+
+    public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-        this.courseRepository = courseRepository;
     }
 
     public List<Student> getStudents() {
@@ -26,30 +26,23 @@ public class StudentService {
     }
 
     public Student addNewStudent(Student student) {
-
-        /*for (Course course : student.getCourses()){
-            course.assignStudent(student);
-        }*/
-
         studentRepository.save(student);
-
         return student;
     }
 
-    public Optional<Student> deleteStudent(long studentId) {
+    public Student deleteStudent(long studentId) {
         //Vi returnerer det slettede person til frontend, for at at vise, hvad der er blevet slettet
-        Optional<Student> studentInDb = studentRepository.findById(studentId);
+        Student studentInDb = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
-        if (studentInDb.isEmpty()) {
-            return studentInDb;
+
+        for (Course course : studentInDb.getCourses()) {
+            studentInDb.removeCourse(course);
         }
 
-        for (Course course : studentInDb.get().getCourses()) {
-            studentInDb.get().removeCourse(course);
-        }
+        studentInDb.setHouse(null);
+        studentRepository.delete(studentInDb);
 
-        studentInDb.get().setHouse(null);
-        studentRepository.delete(studentInDb.get());
         return studentInDb;
     }
 

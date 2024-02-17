@@ -51,8 +51,7 @@ public class StudentController {
 
     @DeleteMapping(path = "/{studentId}")
     public ResponseEntity<Student> deleteStudent(@PathVariable("studentId") long id) {
-        Optional<Student> studentDeleted = studentService.deleteStudent(id);
-        return ResponseEntity.of(studentDeleted);
+        return ResponseEntity.ok(studentService.deleteStudent(id));
     }
 
     @PutMapping(path = "/{studentId}")

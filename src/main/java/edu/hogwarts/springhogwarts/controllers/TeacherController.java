@@ -48,8 +48,7 @@ public class TeacherController {
 
     @DeleteMapping(path = "/{teacherId}")
     public ResponseEntity<Teacher> deleteTeacher(@PathVariable("teacherId") long id) {
-        Optional<Teacher> teacherDeleted = teacherService.deleteTeacher(id);
-        return ResponseEntity.of(teacherDeleted);
+        return ResponseEntity.ok(teacherService.deleteTeacher(id));
     }
 
     @PutMapping(path = "/{teacherId}")

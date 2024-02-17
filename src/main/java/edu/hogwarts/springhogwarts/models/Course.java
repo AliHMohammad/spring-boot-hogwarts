@@ -78,15 +78,12 @@ public class Course {
     }
 
     public void assignStudent(Student student) {
-        if (this.students.contains(student)) throw new IllegalStateException("Student is already assigned this course");
-
         this.students.add(student);
     }
 
     public void removeStudent(Student student) {
-        if (!this.students.contains(student)) throw new IllegalStateException("Student is not enrolled this course");
-
         this.students.remove(student);
+        student.removeCourse(this);
     }
 
     public void setTeacher(Teacher teacher) {
@@ -94,11 +91,8 @@ public class Course {
     }
 
     public void removeTeacher(Teacher teacher) {
-        if (this.teacher == null || !this.teacher.equals(teacher)) {
-            throw new IllegalStateException("Teacher was not assigned this course");
-        }
-
         setTeacher(null);
+        teacher.removeCourse(this);
     }
 
     @Override

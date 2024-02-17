@@ -156,6 +156,7 @@ public class Teacher {
     }
 
     public void removeCourse(Course course) {
+        this.courses.remove(course);
         course.setTeacher(null);
     }
 

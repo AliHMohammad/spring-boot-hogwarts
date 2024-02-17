@@ -128,7 +128,7 @@ public class Student {
     }
 
     public void removeCourse(Course course) {
-        course.getStudents().remove(this);
+        this.courses.remove(course);
     }
 
     public void addCourse(Course course) {
@@ -175,6 +175,8 @@ public class Student {
     public String getLastName() {
         return lastName;
     }
+
+
 
     @Override
     public String toString() {
