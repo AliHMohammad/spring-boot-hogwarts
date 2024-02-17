@@ -3,6 +3,10 @@ package edu.hogwarts.springhogwarts.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -16,14 +20,23 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Missing firstName")
     private String firstName;
     private String middleName;
+
+    @NotBlank(message = "Missing lastName")
     private String lastName;
+
+    @Past(message = "dateOfBirth must be in the past time")
+    @NotNull(message = "dateOfBirth must not be null")
     private LocalDate dateOfBirth;
     private boolean headOfHouse;
 
     @Enumerated(EnumType.STRING)
     private EmploymentType employment;
+
+    @PastOrPresent(message = "employmentStart must be past or present")
     private LocalDate employmentStart;
     private LocalDate employmentEnd;
 
@@ -143,6 +156,7 @@ public class Teacher {
     }
 
     public void removeCourse(Course course) {
+        this.courses.remove(course);
         course.setTeacher(null);
     }
 

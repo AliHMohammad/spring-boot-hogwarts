@@ -70,4 +70,29 @@ public class House {
         this.students.add(student);
     }
 
+    public void setColors(Set<Color> colors) {
+        this.colors = colors;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
+    public Set<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(Set<Teacher> teachers) {
+        this.teachers = teachers;
+    }
+
+    public void removeTeacher(Teacher teacher) {
+        this.teachers.remove(teacher);
+        teacher.setHouse(null);
+    }
+
+    public void removeStudent(Student student) {
+        this.students.remove(student);
+        student.setHouse(null);
+    }
 }

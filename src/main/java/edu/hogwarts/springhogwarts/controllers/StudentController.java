@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.services.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +32,11 @@ public class StudentController {
     @GetMapping("/{studentId}")
     public ResponseEntity<Student> getSingleStudent(@PathVariable("studentId") long id) {
         Optional<Student> studentFound = studentService.getSingleStudent(id);
-
         return ResponseEntity.of(studentFound);
     }
 
     @PostMapping
-    public ResponseEntity<Student> registerNewStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> registerNewStudent(@Valid @RequestBody Student student) {
         Student createdStudent = studentService.addNewStudent(student);
 
         //Vi bygger en location til response header
@@ -47,20 +47,16 @@ public class StudentController {
                 .toUri();
 
         return ResponseEntity.created(location).body(createdStudent);
-
     }
 
     @DeleteMapping(path = "/{studentId}")
     public ResponseEntity<Student> deleteStudent(@PathVariable("studentId") long id) {
-        Optional<Student> studentDeleted = studentService.deleteStudent(id);
-
-        return ResponseEntity.of(studentDeleted);
+        return ResponseEntity.ok(studentService.deleteStudent(id));
     }
 
     @PutMapping(path = "/{studentId}")
-    public ResponseEntity<Student> updateStudent(@PathVariable("studentId") long id, @RequestBody Student updatedStudent) {
+    public ResponseEntity<Student> updateStudent(@PathVariable("studentId") long id, @Valid @RequestBody Student updatedStudent) {
         Optional<Student> student = studentService.updateStudent(id, updatedStudent);
-
         return ResponseEntity.of(student);
     }
 }

@@ -4,6 +4,9 @@ package edu.hogwarts.springhogwarts.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -16,14 +19,22 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Missing firstName")
     private String firstName;
     private String middleName;
+
+    @NotBlank(message = "Missing lastName")
     private String lastName;
+
+    @Past(message = "dateOfBirth must be in the past time")
+    @NotNull(message = "dateOfBirth must not be null")
     private LocalDate dateOfBirth;
     private boolean prefect;
     private int enrollmentYear;
     private int graduationYear;
     private boolean graduated;
+
 
     @JsonIgnore
     @ManyToMany(mappedBy = "students")
@@ -50,6 +61,19 @@ public class Student {
         this.graduationYear = graduationYear;
         this.graduated = graduated;
     }*/
+
+    public Student() {
+    }
+
+    public Student(String fullname, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+                   boolean graduated) {
+        setFullName(fullname);
+        this.dateOfBirth = dateOfBirth;
+        this.prefect = prefect;
+        this.enrollmentYear = enrollmentYear;
+        this.graduationYear = graduationYear;
+        this.graduated = graduated;
+    }
 
     public Long getId() {
         return id;
@@ -105,7 +129,7 @@ public class Student {
     }
 
     public void removeCourse(Course course) {
-        course.getStudents().remove(this);
+        this.courses.remove(course);
     }
 
     public void addCourse(Course course) {
@@ -152,6 +176,8 @@ public class Student {
     public String getLastName() {
         return lastName;
     }
+
+
 
     @Override
     public String toString() {

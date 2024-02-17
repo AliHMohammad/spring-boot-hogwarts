@@ -1,8 +1,10 @@
 package edu.hogwarts.springhogwarts.services;
 
 
+import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.repositories.TeacherRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +37,17 @@ public class TeacherService {
     }
 
 
-    public Optional<Teacher> deleteTeacher(long id) {
-        Optional<Teacher> teacherInDb = teacherRepository.findById(id);
+    public Teacher deleteTeacher(long id) {
+        Teacher teacherInDb = teacherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
-        if (teacherInDb.isPresent()) {
-            teacherRepository.delete(teacherInDb.get());
+
+        for (Course course: teacherInDb.getCourses()) {
+            course.removeTeacher(teacherInDb);
         }
+
+        teacherInDb.setHouse(null);
+        teacherRepository.delete(teacherInDb);
 
         return teacherInDb;
     }

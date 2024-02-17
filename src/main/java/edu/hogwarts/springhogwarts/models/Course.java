@@ -2,6 +2,8 @@ package edu.hogwarts.springhogwarts.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +14,11 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "subject must not be blank")
     private String subject;
+
+    @Min(value = 1800, message = "schoolyear must be later than 1800")
     private int schoolyear;
     private boolean current;
 
@@ -73,15 +79,12 @@ public class Course {
     }
 
     public void assignStudent(Student student) {
-        if (this.students.contains(student)) throw new IllegalStateException("Student is already assigned this course");
-
         this.students.add(student);
     }
 
     public void removeStudent(Student student) {
-        if (!this.students.contains(student)) throw new IllegalStateException("Student is not enrolled this course");
-
         this.students.remove(student);
+        student.removeCourse(this);
     }
 
     public void setTeacher(Teacher teacher) {
@@ -89,11 +92,8 @@ public class Course {
     }
 
     public void removeTeacher(Teacher teacher) {
-        if (this.teacher == null || !this.teacher.equals(teacher)) {
-            throw new IllegalStateException("Teacher was not assigned this course");
-        }
-
         setTeacher(null);
+        teacher.removeCourse(this);
     }
 
     @Override

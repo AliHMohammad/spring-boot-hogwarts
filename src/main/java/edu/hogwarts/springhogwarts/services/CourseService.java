@@ -6,6 +6,7 @@ import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.repositories.CourseRepository;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
 import edu.hogwarts.springhogwarts.repositories.TeacherRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,41 +36,41 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
-        Course createdCourse = courseRepository.save(course);
-        System.out.println(createdCourse);
-        return createdCourse;
+        return courseRepository.save(course);
     }
 
     @Transactional
-    public Optional<Course> updateCourse(Course course, long id) {
-        Optional<Course> courseInDb = courseRepository.findById(id);
+    public Course updateCourse(Course course, long id) {
+        Course courseInDb = courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        if (courseInDb.isEmpty()) return courseInDb;
-
-        courseInDb.get().setCurrent(course.isCurrent());
-        courseInDb.get().setSchoolyear(course.getSchoolyear());
-        courseInDb.get().setSubject(course.getSubject());
+        courseInDb.setCurrent(course.isCurrent());
+        courseInDb.setSchoolyear(course.getSchoolyear());
+        courseInDb.setSubject(course.getSubject());
 
         return courseInDb;
     }
 
     public void deleteCourse(long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("Could not find course"));
+                .orElseThrow(() -> new EntityNotFoundException("Could not find course"));
 
+        for (Student student :
+                course.getStudents()) {
+            student.removeCourse(course);
+        }
+
+        course.getTeacher().removeCourse(course);
         courseRepository.delete(course);
     }
 
     public Course removeTeacherFromCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Teacher not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
+
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.removeTeacher(teacher);
 
@@ -79,14 +80,10 @@ public class CourseService {
 
     public Course removeStudentFromCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Student not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.removeStudent(student);
 
@@ -95,14 +92,10 @@ public class CourseService {
 
     public Course assignTeacherToCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Teacher not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.setTeacher(teacher);
 
@@ -111,14 +104,10 @@ public class CourseService {
 
     public Course enrollStudentToCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Student not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         course.assignStudent(student);
 
@@ -127,18 +116,14 @@ public class CourseService {
 
     public Teacher getTeacherAssignedToCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         return course.getTeacher();
     }
 
     public List<Student> getStudentsEnrolledInCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> {
-                    throw new IllegalStateException("Course not found");
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
         return course.getStudents().stream().toList();
     }
