@@ -42,8 +42,8 @@
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
-            <artifactId>h2-mvstore</artifactId>
-            <version>2.2.224</version>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

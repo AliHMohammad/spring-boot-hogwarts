@@ -61,6 +61,19 @@ public class Student {
         this.graduated = graduated;
     }*/
 
+    public Student() {
+    }
+
+    public Student(String fullname, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+                   boolean graduated) {
+        setFullName(fullname);
+        this.dateOfBirth = dateOfBirth;
+        this.prefect = prefect;
+        this.enrollmentYear = enrollmentYear;
+        this.graduationYear = graduationYear;
+        this.graduated = graduated;
+    }
+
     public Long getId() {
         return id;
     }
