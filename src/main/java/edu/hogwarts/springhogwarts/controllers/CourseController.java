@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
+import edu.hogwarts.springhogwarts.DTO.CourseDTO;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -23,14 +24,13 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getCourses() {
+    public ResponseEntity<List<CourseDTO>> getCourses() {
         return ResponseEntity.ok(courseService.getCourses());
     }
 
     @GetMapping("/{courseId}")
     public ResponseEntity<Course> getSingleCourse(@PathVariable("courseId") long id) {
-        Optional<Course> course = courseService.getSingleCourse(id);
-        return ResponseEntity.of(course);
+        return ResponseEntity.of(courseService.getSingleCourse(id));
     }
 
     @GetMapping("/{courseId}/teachers")
@@ -38,8 +38,6 @@ public class CourseController {
         Teacher teacher = courseService.getTeacherAssignedToCourse(courseId);
         return ResponseEntity.ok(teacher);
     }
-
-
 
     @GetMapping("/{courseId}/students")
     public ResponseEntity<Object> getStudentsEnrolledInCourse(@PathVariable("courseId") long courseId) {
