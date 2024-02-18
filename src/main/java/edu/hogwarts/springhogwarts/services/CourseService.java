@@ -1,5 +1,7 @@
 package edu.hogwarts.springhogwarts.services;
 
+import edu.hogwarts.springhogwarts.DTO.CourseDTO;
+import edu.hogwarts.springhogwarts.DTO.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -19,11 +21,13 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
+    private final CourseDTOMapper courseDTOMapper;
 
-    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository) {
+    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, CourseDTOMapper courseDTOMapper) {
         this.courseRepository = courseRepository;
         this.teacherRepository = teacherRepository;
         this.studentRepository = studentRepository;
+        this.courseDTOMapper = courseDTOMapper;
     }
 
 
@@ -31,8 +35,11 @@ public class CourseService {
         return courseRepository.findById(id);
     }
 
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getCourses() {
+        return courseRepository.findAll()
+                .stream()
+                .map(courseDTOMapper)
+                .toList();
     }
 
     public Course createCourse(Course course) {
