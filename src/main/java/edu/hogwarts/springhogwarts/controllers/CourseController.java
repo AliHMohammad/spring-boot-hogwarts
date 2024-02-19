@@ -1,6 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
-import edu.hogwarts.springhogwarts.DTO.CourseDTO;
+import edu.hogwarts.springhogwarts.dto.CourseDTO;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;

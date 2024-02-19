@@ -1,7 +1,4 @@
-package edu.hogwarts.springhogwarts.DTO;
-
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+package edu.hogwarts.springhogwarts.dto;
 
 import java.util.List;
 
