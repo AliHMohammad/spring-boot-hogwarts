@@ -49,7 +49,7 @@ public class Teacher {
     @ManyToOne()
     @JoinColumn(
             name = "house_id",
-            referencedColumnName = "id"
+            referencedColumnName = "name"
     )
     private House house;
 

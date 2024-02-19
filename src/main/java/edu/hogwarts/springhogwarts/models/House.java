@@ -9,9 +9,7 @@ import java.util.Set;
 @Entity
 public class House {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
     private String name;
     private String founder;
 
@@ -29,14 +27,6 @@ public class House {
 
 
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
