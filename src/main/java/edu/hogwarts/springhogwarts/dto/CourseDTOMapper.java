@@ -1,4 +1,4 @@
-package edu.hogwarts.springhogwarts.DTO;
+package edu.hogwarts.springhogwarts.dto;
 
 import edu.hogwarts.springhogwarts.models.Course;
 import org.springframework.stereotype.Service;

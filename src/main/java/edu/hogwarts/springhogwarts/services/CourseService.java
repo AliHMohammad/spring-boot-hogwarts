@@ -1,7 +1,7 @@
 package edu.hogwarts.springhogwarts.services;
 
-import edu.hogwarts.springhogwarts.DTO.CourseDTO;
-import edu.hogwarts.springhogwarts.DTO.CourseDTOMapper;
+import edu.hogwarts.springhogwarts.dto.CourseDTO;
+import edu.hogwarts.springhogwarts.dto.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
