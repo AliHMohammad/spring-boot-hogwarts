@@ -3,6 +3,9 @@ package edu.hogwarts.springhogwarts.services;
 
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmployment;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmploymentEnd;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOHeadOfHouse;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.repositories.TeacherRepository;
@@ -77,6 +80,36 @@ public class TeacherService {
         teacherInDb.setEmploymentStart(teacher.getEmploymentStart());
         teacherInDb.setEmploymentEnd(teacher.getEmploymentEnd());
 
+        return teacherDTOMapper.apply(teacherInDb);
+    }
+
+    public TeacherDTO updateTeacherHeadOfHouse(TeacherDTOHeadOfHouse teacherDTOHeadOfHouse, long id) {
+        Teacher teacherInDb = teacherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
+
+        teacherInDb.setHeadOfHouse(teacherDTOHeadOfHouse.headOfHouse());
+
+        teacherRepository.save(teacherInDb);
+        return teacherDTOMapper.apply(teacherInDb);
+    }
+
+    public TeacherDTO updateTeacherEmploymentEnd(TeacherDTOEmploymentEnd teacherDTOEmploymentEnd, long id) {
+        Teacher teacherInDb = teacherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
+
+        teacherInDb.setEmploymentEnd(teacherDTOEmploymentEnd.employmentEnd());
+
+        teacherRepository.save(teacherInDb);
+        return teacherDTOMapper.apply(teacherInDb);
+    }
+
+    public TeacherDTO updateTeacherEmployment(TeacherDTOEmployment teacherDTOEmployment, long id) {
+        Teacher teacherInDb = teacherRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
+
+        teacherInDb.setEmployment(teacherDTOEmployment.employment());
+
+        teacherRepository.save(teacherInDb);
         return teacherDTOMapper.apply(teacherInDb);
     }
 }

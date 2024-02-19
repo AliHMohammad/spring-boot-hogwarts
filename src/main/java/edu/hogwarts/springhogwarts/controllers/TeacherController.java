@@ -1,6 +1,9 @@
 package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmployment;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmploymentEnd;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOHeadOfHouse;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.TeacherService;
 import jakarta.validation.Valid;
@@ -54,5 +57,30 @@ public class TeacherController {
     @PutMapping(path = "/{teacherId}")
     public ResponseEntity<TeacherDTO> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody Teacher teacher) {
         return ResponseEntity.ok(teacherService.updateTeacher(id, teacher));
+    }
+
+    @PatchMapping("/{teacherId}/headofhouse")
+    public ResponseEntity<TeacherDTO> updateTeacherHeadOfHouse(
+            @Valid @RequestBody TeacherDTOHeadOfHouse teacherDTOHeadOfHouse,
+            @PathVariable("teacherId") long id
+    ) {
+        return ResponseEntity.ok(teacherService.updateTeacherHeadOfHouse(teacherDTOHeadOfHouse, id));
+    }
+
+    @PatchMapping("/{teacherId}/employmentend")
+    public ResponseEntity<TeacherDTO> updateTeacherEmploymentEnd(
+            @Valid @RequestBody TeacherDTOEmploymentEnd teacherDTOEmploymentEnd,
+            @PathVariable("teacherId") long id
+    ) {
+        return ResponseEntity.ok(teacherService.updateTeacherEmploymentEnd(teacherDTOEmploymentEnd, id));
+    }
+
+
+    @PatchMapping("/{teacherId}/employment")
+    public ResponseEntity<TeacherDTO> updateTeacherEmployment(
+            @Valid @RequestBody TeacherDTOEmployment teacherDTOEmployment,
+            @PathVariable("teacherId") long id
+    ) {
+        return ResponseEntity.ok(teacherService.updateTeacherEmployment(teacherDTOEmployment, id));
     }
 }
