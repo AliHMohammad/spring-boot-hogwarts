@@ -1,4 +1,4 @@
-package edu.hogwarts.springhogwarts.dto;
+package edu.hogwarts.springhogwarts.dto.course;
 
 import java.util.List;
 

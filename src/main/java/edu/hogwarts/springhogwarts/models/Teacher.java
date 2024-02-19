@@ -48,7 +48,7 @@ public class Teacher {
 
     @ManyToOne()
     @JoinColumn(
-            name = "house_id",
+            name = "house",
             referencedColumnName = "name"
     )
     private House house;
@@ -157,7 +157,6 @@ public class Teacher {
 
     public void removeCourse(Course course) {
         this.courses.remove(course);
-        course.setTeacher(null);
     }
 
     public void assignCourse(Course course) {

@@ -1,7 +1,7 @@
 package edu.hogwarts.springhogwarts.services;
 
-import edu.hogwarts.springhogwarts.dto.CourseDTO;
-import edu.hogwarts.springhogwarts.dto.CourseDTOMapper;
+import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
+import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -58,7 +58,7 @@ public class CourseService {
         return courseInDb;
     }
 
-    public void deleteCourse(long id) {
+    public Course deleteCourse(long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find course"));
 
@@ -67,8 +67,10 @@ public class CourseService {
             student.removeCourse(course);
         }
 
-        course.getTeacher().removeCourse(course);
+        /*course.getTeacher().removeCourse(course);*/
+        course.setTeacher(null);
         courseRepository.delete(course);
+        return course;
     }
 
     public Course removeTeacherFromCourse(long courseId, long teacherId) {

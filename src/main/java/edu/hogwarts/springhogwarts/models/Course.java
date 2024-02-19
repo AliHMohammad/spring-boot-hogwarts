@@ -84,7 +84,6 @@ public class Course {
 
     public void removeStudent(Student student) {
         this.students.remove(student);
-        student.removeCourse(this);
     }
 
     public void setTeacher(Teacher teacher) {
@@ -92,8 +91,7 @@ public class Course {
     }
 
     public void removeTeacher(Teacher teacher) {
-        setTeacher(null);
-        teacher.removeCourse(this);
+        if (this.teacher.equals(teacher)) setTeacher(null);
     }
 
     @Override

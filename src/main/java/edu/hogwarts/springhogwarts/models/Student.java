@@ -44,7 +44,7 @@ public class Student {
             cascade = CascadeType.REMOVE
     )
     @JoinColumn(
-            name = "house_id",
+            name = "house",
             referencedColumnName = "name"
     )
     private House house;

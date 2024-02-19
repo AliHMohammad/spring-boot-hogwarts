@@ -1,17 +1,16 @@
 package edu.hogwarts.springhogwarts.controllers;
 
+import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.services.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/students")
@@ -25,25 +24,24 @@ public class StudentController {
 
 
     @GetMapping
-    public ResponseEntity<List<Student>> getStudents() {
+    public ResponseEntity<List<StudentDTO>> getStudents() {
         return new ResponseEntity<>(studentService.getStudents(), HttpStatus.OK);
     }
 
     @GetMapping("/{studentId}")
-    public ResponseEntity<Student> getSingleStudent(@PathVariable("studentId") long id) {
-        Optional<Student> studentFound = studentService.getSingleStudent(id);
-        return ResponseEntity.of(studentFound);
+    public ResponseEntity<StudentDTO> getSingleStudent(@PathVariable("studentId") long id) {
+        return ResponseEntity.ok(studentService.getSingleStudent(id));
     }
 
     @PostMapping
-    public ResponseEntity<Student> registerNewStudent(@Valid @RequestBody Student student) {
-        Student createdStudent = studentService.addNewStudent(student);
+    public ResponseEntity<StudentDTO> registerNewStudent(@Valid @RequestBody Student student) {
+        StudentDTO createdStudent = studentService.addNewStudent(student);
 
         //Vi bygger en location til response header
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdStudent.getId())
+                .buildAndExpand(createdStudent.id())
                 .toUri();
 
         return ResponseEntity.created(location).body(createdStudent);
@@ -55,8 +53,7 @@ public class StudentController {
     }
 
     @PutMapping(path = "/{studentId}")
-    public ResponseEntity<Student> updateStudent(@PathVariable("studentId") long id, @Valid @RequestBody Student updatedStudent) {
-        Optional<Student> student = studentService.updateStudent(id, updatedStudent);
-        return ResponseEntity.of(student);
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable("studentId") long id, @Valid @RequestBody Student updatedStudent) {
+        return ResponseEntity.ok(studentService.updateStudent(id, updatedStudent));
     }
 }

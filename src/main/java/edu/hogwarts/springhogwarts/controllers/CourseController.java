@@ -1,6 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
-import edu.hogwarts.springhogwarts.dto.CourseDTO;
+import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -77,8 +77,8 @@ public class CourseController {
 
     @DeleteMapping("/{courseId}")
     public ResponseEntity<Course> deleteCourse(@PathVariable("courseId") long id) {
-        courseService.deleteCourse(id);
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(courseService.deleteCourse(id));
     }
 
     @DeleteMapping("/{courseId}/teachers/{teacherId}")
