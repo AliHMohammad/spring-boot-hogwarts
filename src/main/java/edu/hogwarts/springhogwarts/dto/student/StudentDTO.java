@@ -8,6 +8,7 @@ public record StudentDTO(
         String middleName,
         String lastName,
         LocalDate dateOfBirth,
+        int schoolYear,
         boolean prefect,
         int enrollmentYear,
         int graduationYear,

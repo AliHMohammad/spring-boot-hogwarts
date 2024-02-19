@@ -66,6 +66,7 @@ public class StudentService {
         studentInDb.setEnrollmentYear(updatedStudent.getEnrollmentYear());
         studentInDb.setGraduationYear(updatedStudent.getGraduationYear());
         studentInDb.setGraduated(updatedStudent.isGraduated());
+        studentInDb.setSchoolYear(updatedStudent.getSchoolYear());
         studentInDb.setPrefect(updatedStudent.isPrefect());
         studentInDb.setCourses(updatedStudent.getCourses());
 

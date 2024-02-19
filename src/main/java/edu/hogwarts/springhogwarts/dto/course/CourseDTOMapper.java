@@ -15,11 +15,11 @@ public class CourseDTOMapper implements Function<Course, CourseDTO> {
     private final StudentDTOMapper studentDTOMapper;
     private final TeacherDTOMapper teacherDTOMapper;
 
-    // Constructor injection or autowiring
     public CourseDTOMapper(StudentDTOMapper studentDTOMapper, TeacherDTOMapper teacherDTOMapper) {
         this.studentDTOMapper = studentDTOMapper;
         this.teacherDTOMapper = teacherDTOMapper;
     }
+
     @Override
     public CourseDTO apply(Course course) {
         return new CourseDTO(
