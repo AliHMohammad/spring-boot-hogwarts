@@ -39,7 +39,8 @@ public class CourseController {
 
     @GetMapping("/{courseId}/teachers")
     public ResponseEntity<TeacherDTO> getTeacherAssignedToCourse(@PathVariable("courseId") long courseId) {
-        return ResponseEntity.ok(courseService.getTeacherAssignedToCourse(courseId));
+        TeacherDTO teacherDTO = courseService.getTeacherAssignedToCourse(courseId);
+        return teacherDTO == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(teacherDTO);
     }
 
     @GetMapping("/{courseId}/students")

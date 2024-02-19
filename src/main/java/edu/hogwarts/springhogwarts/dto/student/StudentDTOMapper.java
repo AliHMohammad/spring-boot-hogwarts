@@ -21,7 +21,7 @@ public class StudentDTOMapper implements Function<Student, StudentDTO> {
                 student.getEnrollmentYear(),
                 student.getGraduationYear(),
                 student.isGraduated(),
-                student.getHouse().getName()
+                student.getHouse() == null ? null : student.getHouse().getName()
         );
     }
 }

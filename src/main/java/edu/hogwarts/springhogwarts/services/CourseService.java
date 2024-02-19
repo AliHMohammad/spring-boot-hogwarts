@@ -57,6 +57,7 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
+        //TODO: POST a full course giver null-værdier tilbage ved students og teacher. FIX
         return courseRepository.save(course);
     }
 
@@ -83,25 +84,10 @@ public class CourseService {
             student.removeCourse(course);
         }
 
-        /*course.getTeacher().removeCourse(course);*/
+
         course.setTeacher(null);
         courseRepository.delete(course);
         return courseDTO;
-    }
-
-    public CourseDTO removeTeacherFromCourse(long courseId, long teacherId) {
-        Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
-
-
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-        course.removeTeacher(teacher);
-
-        //Husk at gemme dine ændringer!
-        courseRepository.save(course);
-        return courseDTOMapper.apply(course);
     }
 
     public CourseDTO removeStudentFromCourse(long courseId, long studentId) {
@@ -117,24 +103,11 @@ public class CourseService {
         return courseDTOMapper.apply(course);
     }
 
-    public CourseDTO assignTeacherToCourse(long courseId, long teacherId) {
-        Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
-
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-        course.setTeacher(teacher);
-
-        courseRepository.save(course);
-        return courseDTOMapper.apply(course);
-    }
-
     public TeacherDTO getTeacherAssignedToCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        return teacherDTOMapper.apply(course.getTeacher());
+        return course.getTeacher() == null ? null : teacherDTOMapper.apply(course.getTeacher());
     }
 
     public List<StudentDTO> getStudentsEnrolledInCourse(long courseId) {
