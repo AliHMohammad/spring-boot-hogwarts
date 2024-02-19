@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
+import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.TeacherService;
 import jakarta.validation.Valid;
@@ -22,38 +23,36 @@ public class TeacherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Teacher>> getTeachers() {
+    public ResponseEntity<List<TeacherDTO>> getTeachers() {
         return ResponseEntity.ok(teacherService.getTeachers());
     }
 
     @GetMapping("/{teacherId}")
-    public ResponseEntity<Teacher> getSingleTeacher(@PathVariable("teacherId") long id) {
-        Optional<Teacher> teacherInDb = teacherService.getSingleTeacher(id);
-        return ResponseEntity.of(teacherInDb);
+    public ResponseEntity<TeacherDTO> getSingleTeacher(@PathVariable("teacherId") long id) {
+        return ResponseEntity.ok(teacherService.getSingleTeacher(id));
     }
 
     @PostMapping
-    public ResponseEntity<Teacher> registerNewTeacher(@Valid @RequestBody Teacher teacher) {
-        Teacher createdTeacher = teacherService.createTeacher(teacher);
+    public ResponseEntity<TeacherDTO> registerNewTeacher(@Valid @RequestBody Teacher teacher) {
+        TeacherDTO createdTeacher = teacherService.createTeacher(teacher);
 
         //Vi bygger en location til response header
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdTeacher.getId())
+                .buildAndExpand(createdTeacher.id())
                 .toUri();
 
         return ResponseEntity.created(location).body(createdTeacher);
     }
 
     @DeleteMapping(path = "/{teacherId}")
-    public ResponseEntity<Teacher> deleteTeacher(@PathVariable("teacherId") long id) {
+    public ResponseEntity<TeacherDTO> deleteTeacher(@PathVariable("teacherId") long id) {
         return ResponseEntity.ok(teacherService.deleteTeacher(id));
     }
 
     @PutMapping(path = "/{teacherId}")
-    public ResponseEntity<Teacher> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody Teacher teacher) {
-        Optional<Teacher> updatedTeacher = teacherService.updateTeacher(id, teacher);
-        return ResponseEntity.of(updatedTeacher);
+    public ResponseEntity<TeacherDTO> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody Teacher teacher) {
+        return ResponseEntity.ok(teacherService.updateTeacher(id, teacher));
     }
 }

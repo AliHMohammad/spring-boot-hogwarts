@@ -94,6 +94,10 @@ public class Teacher {
         return employment;
     }
 
+    public String getEmploymentToString() {
+        return employment == null ? null : employment.toString();
+    }
+
     public void setEmployment(EmploymentType employment) {
         this.employment = employment;
     }
@@ -119,7 +123,7 @@ public class Teacher {
     }
 
     public House getHouse() {
-        return house;
+        return house == null ? null : house;
     }
 
     public void setHouse(House house) {
