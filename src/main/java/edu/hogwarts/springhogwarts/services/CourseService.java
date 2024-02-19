@@ -171,7 +171,11 @@ public class CourseService {
 
         for (Long studentId : studentDTOIdMap.students()) {
             Student student = studentRepository.findById(studentId)
-                    .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+                    .orElseThrow(() -> new EntityNotFoundException("Student with id " + studentId + " not found"));
+
+            if (student.getSchoolYear() != course.getSchoolyear()) {
+                throw new BadRequestException("Can not assign student with id " + student.getId() + " with course because student schoolyear differs from course schoolYear");
+            }
 
             course.assignStudent(student);
         }

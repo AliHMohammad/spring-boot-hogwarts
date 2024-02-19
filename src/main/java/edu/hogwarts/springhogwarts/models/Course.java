@@ -81,8 +81,7 @@ public class Course {
         return students;
     }
 
-    public void assignStudent(Student student) throws BadRequestException {
-        if (student.getSchoolYear() != this.schoolyear) throw new BadRequestException("Can not assign student with id " + student.getId() + " with course because student schoolyear differs from course schoolYear");
+    public void assignStudent(Student student) {
         this.students.add(student);
     }
 
