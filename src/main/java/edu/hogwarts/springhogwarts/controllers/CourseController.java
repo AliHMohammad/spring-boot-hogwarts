@@ -2,12 +2,11 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
-import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdMap;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTONamesList;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
 import edu.hogwarts.springhogwarts.models.Course;
-import edu.hogwarts.springhogwarts.models.Student;
-import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.CourseService;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
@@ -87,10 +86,19 @@ public class CourseController {
     @PostMapping("/{courseId}/students")
     public ResponseEntity<CourseDTO> AssignStudentsToCourse(
             @PathVariable("courseId") long courseId,
-            @RequestBody StudentDTOIdMap studentDTOIdMap)
+            @RequestBody StudentDTOIdsList studentDTOIdsList)
             throws BadRequestException
     {
-        return ResponseEntity.ok(courseService.AssignStudentsToCourse(courseId, studentDTOIdMap));
+        return ResponseEntity.ok(courseService.AssignStudentsToCourse(courseId, studentDTOIdsList));
+    }
+
+    @PostMapping("/{courseId}/students/name")
+    public ResponseEntity<CourseDTO> AssignStudentsToCourseWithNames(
+            @PathVariable("courseId") long courseId,
+            @RequestBody StudentDTONamesList studentDTONamesList)
+            throws BadRequestException
+    {
+        return ResponseEntity.ok(courseService.AssignStudentsToCourseWithNames(courseId, studentDTONamesList));
     }
 
 }

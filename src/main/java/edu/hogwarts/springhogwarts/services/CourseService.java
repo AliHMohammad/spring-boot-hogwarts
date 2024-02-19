@@ -4,7 +4,8 @@ import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
-import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdMap;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTONamesList;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
@@ -165,11 +166,11 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO AssignStudentsToCourse(long courseId, StudentDTOIdMap studentDTOIdMap) throws BadRequestException {
+    public CourseDTO AssignStudentsToCourse(long courseId, StudentDTOIdsList studentDTOIdsList) throws BadRequestException {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        for (Long studentId : studentDTOIdMap.students()) {
+        for (Long studentId : studentDTOIdsList.students()) {
             Student student = studentRepository.findById(studentId)
                     .orElseThrow(() -> new EntityNotFoundException("Student with id " + studentId + " not found"));
 
@@ -178,6 +179,26 @@ public class CourseService {
             }
 
             course.assignStudent(student);
+        }
+
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
+    }
+
+    public CourseDTO AssignStudentsToCourseWithNames(long courseId, StudentDTONamesList studentDTONamesList) throws BadRequestException {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+        for (String fullName : studentDTONamesList.students()) {
+            Student s = new Student(fullName);
+            Student studentInDb = studentRepository.findStudentByFirstNameContainingOrLastNameContaining(s.getFirstName(), s.getLastName())
+                    .orElseThrow(() -> new EntityNotFoundException("Student with name containing" + fullName + " not found"));
+
+            if (studentInDb.getSchoolYear() != course.getSchoolyear()) {
+                throw new BadRequestException("Can not assign student with id " + studentInDb.getId() + " with course because student schoolyear differs from course schoolYear");
+            }
+
+            course.assignStudent(studentInDb);
         }
 
         courseRepository.save(course);

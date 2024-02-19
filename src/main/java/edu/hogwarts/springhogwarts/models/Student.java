@@ -69,9 +69,13 @@ public class Student {
     public Student() {
     }
 
-    public Student(String fullname, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+    public Student(String fullName) {
+        this(fullName, null, false, 0, 0, false);
+    }
+
+    public Student(String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, Integer graduationYear,
                    boolean graduated) {
-        setFullName(fullname);
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.prefect = prefect;
         this.enrollmentYear = enrollmentYear;

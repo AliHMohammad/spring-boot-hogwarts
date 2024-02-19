@@ -38,10 +38,11 @@ public class StudentService {
         return studentDTOMapper.apply(student);
     }
 
-    public Student deleteStudent(long studentId) {
+    public StudentDTO deleteStudent(long studentId) {
         //Vi returnerer det slettede person til frontend, for at at vise, hvad der er blevet slettet
         Student studentInDb = studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        StudentDTO studentDTO = studentDTOMapper.apply(studentInDb);
 
 
         for (Course course : studentInDb.getCourses()) {
@@ -51,8 +52,7 @@ public class StudentService {
         studentInDb.setHouse(null);
         studentRepository.delete(studentInDb);
 
-        //return studentDTOMapper.apply(studentInDb);
-        return studentInDb;
+        return studentDTO;
     }
 
     @Transactional
@@ -62,8 +62,7 @@ public class StudentService {
 
 
         //Vi bruger dens setter til at opdatere
-        //Ændringen gemmer i db'en
-        //HUSK @Transactional på metoden for at det virker
+        //HUSK @Transactional, så det er en transaction
         studentInDb.setFullName(updatedStudent.getFullName());
         studentInDb.setDateOfBirth(updatedStudent.getDateOfBirth());
         studentInDb.setEnrollmentYear(updatedStudent.getEnrollmentYear());
@@ -73,6 +72,8 @@ public class StudentService {
         studentInDb.setPrefect(updatedStudent.isPrefect());
         studentInDb.setCourses(updatedStudent.getCourses());
 
+        //Gem ændringer i db
+        studentRepository.save(studentInDb);
         return studentDTOMapper.apply(studentInDb);
     }
 
