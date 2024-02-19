@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdMap;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
 import edu.hogwarts.springhogwarts.models.Course;
@@ -9,6 +10,7 @@ import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
 import edu.hogwarts.springhogwarts.services.CourseService;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -66,11 +68,6 @@ public class CourseController {
     }
 
 
-    @PutMapping("/{courseId}/students/{studentId}")
-    public ResponseEntity<CourseDTO> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
-        return ResponseEntity.ok(courseService.enrollStudentToCourse(courseId, studentId));
-    }
-
     @DeleteMapping("/{courseId}")
     public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("courseId") long id) {
         return ResponseEntity.ok(courseService.deleteCourse(id));
@@ -85,6 +82,15 @@ public class CourseController {
     @PatchMapping("/{courseId}/teachers")
     public ResponseEntity<CourseDTO> updateTeacherInCourse(@PathVariable("courseId") long courseId, @RequestBody TeacherDTOId teacherDTOId) {
         return ResponseEntity.ok(courseService.updateTeacherInCourse(courseId, teacherDTOId));
+    }
+
+    @PostMapping("/{courseId}/students")
+    public ResponseEntity<CourseDTO> AssignStudentsToCourse(
+            @PathVariable("courseId") long courseId,
+            @RequestBody StudentDTOIdMap studentDTOIdMap)
+            throws BadRequestException
+    {
+        return ResponseEntity.ok(courseService.AssignStudentsToCourse(courseId, studentDTOIdMap));
     }
 
 }

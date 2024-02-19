@@ -4,6 +4,7 @@ import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdMap;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
@@ -14,6 +15,7 @@ import edu.hogwarts.springhogwarts.repositories.CourseRepository;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
 import edu.hogwarts.springhogwarts.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,19 +129,6 @@ public class CourseService {
         return courseDTOMapper.apply(course);
     }
 
-    public CourseDTO enrollStudentToCourse(long courseId, long studentId) {
-        Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-
-        course.assignStudent(student);
-
-        courseRepository.save(course);
-        return courseDTOMapper.apply(course);
-    }
-
     public TeacherDTO getTeacherAssignedToCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
@@ -169,6 +158,22 @@ public class CourseService {
                     .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
             course.setTeacher(teacherInDb);
+        }
+
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
+    }
+
+    @Transactional
+    public CourseDTO AssignStudentsToCourse(long courseId, StudentDTOIdMap studentDTOIdMap) throws BadRequestException {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+        for (Long studentId : studentDTOIdMap.students()) {
+            Student student = studentRepository.findById(studentId)
+                    .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+
+            course.assignStudent(student);
         }
 
         courseRepository.save(course);

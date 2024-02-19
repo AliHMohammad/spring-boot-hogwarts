@@ -84,8 +84,8 @@ INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start
 
 /* COURSES */
 
-INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (2, 'Magic', 1991, true);
-INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (4, 'Discipline', 1995, true);
+INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (2, 'Magic', 1, true);
+INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (4, 'Discipline', 1, true);
 
 /* STUDENTS_COURSES */
 
