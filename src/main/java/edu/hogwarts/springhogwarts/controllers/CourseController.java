@@ -3,6 +3,7 @@ package edu.hogwarts.springhogwarts.controllers;
 import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -64,10 +65,6 @@ public class CourseController {
         return ResponseEntity.ok(courseService.updateCourse(course, id));
     }
 
-    @PutMapping("/{courseId}/teachers/{teacherId}")
-    public ResponseEntity<CourseDTO> assignTeacherToCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
-        return ResponseEntity.ok(courseService.assignTeacherToCourse(courseId, teacherId));
-    }
 
     @PutMapping("/{courseId}/students/{studentId}")
     public ResponseEntity<CourseDTO> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
@@ -79,17 +76,15 @@ public class CourseController {
         return ResponseEntity.ok(courseService.deleteCourse(id));
     }
 
-    @DeleteMapping("/{courseId}/teachers/{teacherId}")
-    public ResponseEntity<CourseDTO> removeTeacherFromCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
-        return ResponseEntity.ok(courseService.removeTeacherFromCourse(courseId, teacherId));
-    }
 
     @DeleteMapping("/{courseId}/students/{studentId}")
     public ResponseEntity<CourseDTO> removeStudentFromCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
         return ResponseEntity.ok(courseService.removeStudentFromCourse(courseId, studentId));
     }
 
-
-
+    @PatchMapping("/{courseId}/teachers")
+    public ResponseEntity<CourseDTO> updateTeacherInCourse(@PathVariable("courseId") long courseId, @RequestBody TeacherDTOId teacherDTOId) {
+        return ResponseEntity.ok(courseService.updateTeacherInCourse(courseId, teacherDTOId));
+    }
 
 }

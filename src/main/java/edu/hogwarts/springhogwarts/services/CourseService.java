@@ -6,6 +6,7 @@ import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
+import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOId;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -155,5 +155,23 @@ public class CourseService {
                 .stream()
                 .map(studentDTOMapper)
                 .toList();
+    }
+
+    public CourseDTO updateTeacherInCourse(long courseId, TeacherDTOId teacherDTOId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
+        //Hvis teacherDTOId er null, så fjern teacher fra course
+        if (teacherDTOId.id() == null) {
+            course.setTeacher(null);
+        } else {
+            Teacher teacherInDb = teacherRepository.findById(teacherDTOId.id())
+                    .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
+
+            course.setTeacher(teacherInDb);
+        }
+
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
     }
 }
