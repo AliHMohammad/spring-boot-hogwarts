@@ -164,7 +164,7 @@ public class CourseService {
 
         for (String fullName : studentDTONamesList.students()) {
             Student s = new Student(fullName);
-            Student studentInDb = studentRepository.findStudentByFirstNameContainingOrLastNameContaining(s.getFirstName(), s.getLastName())
+            Student studentInDb = studentRepository.findFirstByFirstNameContainingOrLastNameContaining(s.getFirstName(), s.getLastName())
                     .orElseThrow(() -> new EntityNotFoundException("Student with name containing" + fullName + " not found"));
 
             if (studentInDb.getSchoolYear() != course.getSchoolyear()) {
