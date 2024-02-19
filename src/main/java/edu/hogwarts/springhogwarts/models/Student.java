@@ -32,6 +32,8 @@ public class Student {
     @Min(value = 1, message = "Minimum schoolYear is 1")
     @Max(value = 7, message = "Maximum schoolYear is 7")
     private int schoolYear;
+
+    @NotNull(message = "prefect must not be null")
     private boolean prefect;
     private int enrollmentYear;
     private int graduationYear;

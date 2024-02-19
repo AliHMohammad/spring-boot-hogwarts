@@ -1,6 +1,8 @@
 package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOPrefect;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOSchoolYear;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.services.StudentService;
 import jakarta.validation.Valid;
@@ -55,5 +57,22 @@ public class StudentController {
     @PutMapping(path = "/{studentId}")
     public ResponseEntity<StudentDTO> updateStudent(@PathVariable("studentId") long id, @Valid @RequestBody Student updatedStudent) {
         return ResponseEntity.ok(studentService.updateStudent(id, updatedStudent));
+    }
+
+
+    @PatchMapping("/{studentId}/prefect")
+    public ResponseEntity<StudentDTO> updateStudentPrefect(
+            @Valid @RequestBody StudentDTOPrefect studentDTOPrefect,
+            @PathVariable("studentId") long id
+    ) {
+        return ResponseEntity.ok(studentService.updateStudentPrefect(studentDTOPrefect, id));
+    }
+
+    @PatchMapping("/{studentId}/schoolyear")
+    public ResponseEntity<StudentDTO> updateStudentSchoolYear(
+            @Valid @RequestBody StudentDTOSchoolYear studentDTOSchoolYear,
+            @PathVariable("studentId") long id
+    ) {
+        return ResponseEntity.ok(studentService.updateStudentSchoolYear(studentDTOSchoolYear, id));
     }
 }

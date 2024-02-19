@@ -2,6 +2,8 @@ package edu.hogwarts.springhogwarts.services;
 
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOPrefect;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOSchoolYear;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
@@ -76,6 +78,30 @@ public class StudentService {
     public StudentDTO getSingleStudent(long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student with id not found"));
+
+        return studentDTOMapper.apply(student);
+    }
+
+    public StudentDTO updateStudentPrefect(StudentDTOPrefect studentDTOPrefect, long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id not found"));
+
+        student.setPrefect(studentDTOPrefect.prefect());
+
+        //HUSK AT GEMME EFTER PATCH
+        studentRepository.save(student);
+
+        return studentDTOMapper.apply(student);
+    }
+
+    public StudentDTO updateStudentSchoolYear(StudentDTOSchoolYear studentDTOSchoolYear, long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id not found"));
+
+        student.setSchoolYear(studentDTOSchoolYear.schoolYear());
+
+        //HUSK AT GEMME EFTER PATCH
+        studentRepository.save(student);
 
         return studentDTOMapper.apply(student);
     }
