@@ -2,6 +2,10 @@ package edu.hogwarts.springhogwarts.services;
 
 import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
+import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
+import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
+import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -22,17 +26,24 @@ public class CourseService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final CourseDTOMapper courseDTOMapper;
+    private final TeacherDTOMapper teacherDTOMapper;
+    private final StudentDTOMapper studentDTOMapper;
 
-    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, CourseDTOMapper courseDTOMapper) {
+    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, CourseDTOMapper courseDTOMapper, StudentDTOMapper studentDTOMapper, TeacherDTOMapper teacherDTOMapper) {
         this.courseRepository = courseRepository;
         this.teacherRepository = teacherRepository;
         this.studentRepository = studentRepository;
         this.courseDTOMapper = courseDTOMapper;
+        this.teacherDTOMapper = teacherDTOMapper;
+        this.studentDTOMapper =studentDTOMapper;
     }
 
 
-    public Optional<Course> getSingleCourse(long id) {
-        return courseRepository.findById(id);
+    public CourseDTO getSingleCourse(long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Course not found by id"));
+
+        return courseDTOMapper.apply(course);
     }
 
     public List<CourseDTO> getCourses() {
@@ -47,20 +58,22 @@ public class CourseService {
     }
 
     @Transactional
-    public Course updateCourse(Course course, long id) {
+    public CourseDTO updateCourse(Course course, long id) {
         Course courseInDb = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+
 
         courseInDb.setCurrent(course.isCurrent());
         courseInDb.setSchoolyear(course.getSchoolyear());
         courseInDb.setSubject(course.getSubject());
 
-        return courseInDb;
+        return courseDTOMapper.apply(courseInDb);
     }
 
-    public Course deleteCourse(long id) {
+    public CourseDTO deleteCourse(long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find course"));
+        CourseDTO courseDTO = courseDTOMapper.apply(course);
 
         for (Student student :
                 course.getStudents()) {
@@ -70,10 +83,10 @@ public class CourseService {
         /*course.getTeacher().removeCourse(course);*/
         course.setTeacher(null);
         courseRepository.delete(course);
-        return course;
+        return courseDTO;
     }
 
-    public Course removeTeacherFromCourse(long courseId, long teacherId) {
+    public CourseDTO removeTeacherFromCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
@@ -84,10 +97,11 @@ public class CourseService {
         course.removeTeacher(teacher);
 
         //Husk at gemme dine ændringer!
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
     }
 
-    public Course removeStudentFromCourse(long courseId, long studentId) {
+    public CourseDTO removeStudentFromCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
@@ -96,10 +110,11 @@ public class CourseService {
 
         course.removeStudent(student);
 
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
     }
 
-    public Course assignTeacherToCourse(long courseId, long teacherId) {
+    public CourseDTO assignTeacherToCourse(long courseId, long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
 
@@ -108,10 +123,11 @@ public class CourseService {
 
         course.setTeacher(teacher);
 
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
     }
 
-    public Course enrollStudentToCourse(long courseId, long studentId) {
+    public CourseDTO enrollStudentToCourse(long courseId, long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
 
@@ -120,20 +136,24 @@ public class CourseService {
 
         course.assignStudent(student);
 
-        return courseRepository.save(course);
+        courseRepository.save(course);
+        return courseDTOMapper.apply(course);
     }
 
-    public Teacher getTeacherAssignedToCourse(long courseId) {
+    public TeacherDTO getTeacherAssignedToCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        return course.getTeacher();
+        return teacherDTOMapper.apply(course.getTeacher());
     }
 
-    public List<Student> getStudentsEnrolledInCourse(long courseId) {
+    public List<StudentDTO> getStudentsEnrolledInCourse(long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        return course.getStudents().stream().toList();
+        return course.getStudents()
+                .stream()
+                .map(studentDTOMapper)
+                .toList();
     }
 }

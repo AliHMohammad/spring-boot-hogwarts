@@ -1,5 +1,8 @@
 package edu.hogwarts.springhogwarts.dto.course;
 
+import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
+
 import java.util.List;
 
 public record CourseDTO(
@@ -7,8 +10,8 @@ public record CourseDTO(
         String subject,
         int schoolyear,
         boolean current,
-        Long teacherId,
-        List<Long> studentIds
+        List<StudentDTO> students,
+        TeacherDTO teacher
 ) {
 
 }

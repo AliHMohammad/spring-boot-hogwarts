@@ -1,6 +1,8 @@
 package edu.hogwarts.springhogwarts.controllers;
 
 import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
+import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.models.Teacher;
@@ -29,20 +31,18 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
-    public ResponseEntity<Course> getSingleCourse(@PathVariable("courseId") long id) {
-        return ResponseEntity.of(courseService.getSingleCourse(id));
+    public ResponseEntity<CourseDTO> getSingleCourse(@PathVariable("courseId") long id) {
+        return ResponseEntity.ok(courseService.getSingleCourse(id));
     }
 
     @GetMapping("/{courseId}/teachers")
-    public ResponseEntity<Object> getTeacherAssignedToCourse(@PathVariable("courseId") long courseId) {
-        Teacher teacher = courseService.getTeacherAssignedToCourse(courseId);
-        return ResponseEntity.ok(teacher);
+    public ResponseEntity<TeacherDTO> getTeacherAssignedToCourse(@PathVariable("courseId") long courseId) {
+        return ResponseEntity.ok(courseService.getTeacherAssignedToCourse(courseId));
     }
 
     @GetMapping("/{courseId}/students")
-    public ResponseEntity<Object> getStudentsEnrolledInCourse(@PathVariable("courseId") long courseId) {
-        List<Student> students = courseService.getStudentsEnrolledInCourse(courseId);
-        return ResponseEntity.ok(students);
+    public ResponseEntity<List<StudentDTO>> getStudentsEnrolledInCourse(@PathVariable("courseId") long courseId) {
+        return ResponseEntity.ok(courseService.getStudentsEnrolledInCourse(courseId));
     }
 
 
@@ -60,37 +60,33 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<Course> updateCourse(@Valid @RequestBody Course course, @PathVariable("courseId") long id) {
-        Course updatedCourse = courseService.updateCourse(course, id);
-        return ResponseEntity.ok(updatedCourse);
+    public ResponseEntity<CourseDTO> updateCourse(@Valid @RequestBody Course course, @PathVariable("courseId") long id) {
+        return ResponseEntity.ok(courseService.updateCourse(course, id));
     }
 
     @PutMapping("/{courseId}/teachers/{teacherId}")
-    public ResponseEntity<Object> assignTeacherToCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
+    public ResponseEntity<CourseDTO> assignTeacherToCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
         return ResponseEntity.ok(courseService.assignTeacherToCourse(courseId, teacherId));
     }
 
     @PutMapping("/{courseId}/students/{studentId}")
-    public ResponseEntity<Object> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
+    public ResponseEntity<CourseDTO> enrollStudentInCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
         return ResponseEntity.ok(courseService.enrollStudentToCourse(courseId, studentId));
     }
 
     @DeleteMapping("/{courseId}")
-    public ResponseEntity<Course> deleteCourse(@PathVariable("courseId") long id) {
-
+    public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("courseId") long id) {
         return ResponseEntity.ok(courseService.deleteCourse(id));
     }
 
     @DeleteMapping("/{courseId}/teachers/{teacherId}")
-    public ResponseEntity<Object> removeTeacherFromCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
-        Course course = courseService.removeTeacherFromCourse(courseId, teacherId);
-        return ResponseEntity.ok(course);
+    public ResponseEntity<CourseDTO> removeTeacherFromCourse(@PathVariable("courseId") long courseId, @PathVariable("teacherId") long teacherId) {
+        return ResponseEntity.ok(courseService.removeTeacherFromCourse(courseId, teacherId));
     }
 
     @DeleteMapping("/{courseId}/students/{studentId}")
-    public ResponseEntity<Object> removeStudentFromCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
-        Course course = courseService.removeStudentFromCourse(courseId, studentId);
-        return ResponseEntity.ok(course);
+    public ResponseEntity<CourseDTO> removeStudentFromCourse(@PathVariable("courseId") long courseId, @PathVariable("studentId") long studentId) {
+        return ResponseEntity.ok(courseService.removeStudentFromCourse(courseId, studentId));
     }
 
 
