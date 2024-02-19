@@ -36,7 +36,7 @@ public class Student {
     @NotNull(message = "prefect must not be null")
     private boolean prefect;
     private int enrollmentYear;
-    private int graduationYear;
+    private Integer graduationYear;
     private boolean graduated;
 
 
@@ -112,12 +112,13 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
     }
 
-    public int getGraduationYear() {
+    public Integer getGraduationYear() {
         return graduationYear;
     }
 
-    public void setGraduationYear(int graduationYear) {
+    public void setGraduationYear(Integer graduationYear) {
         this.graduationYear = graduationYear;
+        setGraduated(this.graduationYear != null);
     }
 
     public boolean isGraduated() {

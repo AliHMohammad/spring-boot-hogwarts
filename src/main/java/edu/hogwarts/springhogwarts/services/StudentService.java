@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.services;
 
 import edu.hogwarts.springhogwarts.dto.student.StudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOGraduationYear;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOPrefect;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOSchoolYear;
 import edu.hogwarts.springhogwarts.models.Course;
@@ -99,6 +100,18 @@ public class StudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student with id not found"));
 
         student.setSchoolYear(studentDTOSchoolYear.schoolYear());
+
+        //HUSK AT GEMME EFTER PATCH
+        studentRepository.save(student);
+
+        return studentDTOMapper.apply(student);
+    }
+
+    public StudentDTO updateStudentGraduationYear(StudentDTOGraduationYear studentDTOGraduationYear, long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student with id not found"));
+
+        student.setGraduationYear(studentDTOGraduationYear.graduationYear());
 
         //HUSK AT GEMME EFTER PATCH
         studentRepository.save(student);

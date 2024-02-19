@@ -11,7 +11,7 @@ public record StudentDTO(
         int schoolYear,
         boolean prefect,
         int enrollmentYear,
-        int graduationYear,
+        Integer graduationYear,
         boolean graduated,
         String house
 ) {
