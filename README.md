@@ -1,0 +1,1 @@
+[![Build and deploy JAR app to Azure Web App - hogwarts-springboot](https://github.com/AliHMohammad/spring-boot-hogwarts/actions/workflows/main_hogwarts-springboot.yml/badge.svg)](https://github.com/AliHMohammad/spring-boot-hogwarts/actions/workflows/main_hogwarts-springboot.yml)
