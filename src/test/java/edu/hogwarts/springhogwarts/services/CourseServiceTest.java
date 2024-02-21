@@ -7,6 +7,7 @@ import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
+import edu.hogwarts.springhogwarts.dto.student.request.StudentDTONamesList;
 import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
@@ -108,6 +109,32 @@ public class CourseServiceTest {
 
         assertThrows(BadRequestException.class, () -> {
             courseService.AssignStudentsToCourse(courseId, studentDTOIdsList);
+        });
+        verify(courseRepository, never()).save(any());
+    }
+
+    public void testAssignStudentsToCourseName_Success() {
+
+    }
+
+    @Test
+    public void testAssignStudentsToCourseName_StudentSchoolYearMismatch() {
+        Course course = new Course();
+        Student student = new Student();
+
+        long courseId = 1L;
+        String fullName = "Ali Mohammad";
+        course.setId(courseId);
+        student.setFullName(fullName);
+
+        StudentDTONamesList studentDTOnamesList = new StudentDTONamesList(Arrays.asList(fullName));
+        student.setSchoolYear(2023);
+
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+        when(studentRepository.findFirstByFirstNameContainingOrLastNameContaining(student.getFirstName(), student.getLastName())).thenReturn(Optional.of(student));
+
+        assertThrows(BadRequestException.class, () -> {
+            courseService.AssignStudentsToCourseWithNames(courseId, studentDTOnamesList);
         });
         verify(courseRepository, never()).save(any());
     }
