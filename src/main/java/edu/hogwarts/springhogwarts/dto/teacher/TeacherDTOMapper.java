@@ -19,7 +19,7 @@ public class TeacherDTOMapper implements Function<Teacher, TeacherDTO> {
                 teacher.getEmploymentToString(),
                 teacher.getEmploymentStart(),
                 teacher.getEmploymentEnd(),
-                teacher.getHouse().getName()
+                teacher.getHouse() == null ? null : teacher.getHouse().getName()
 
         );
     }

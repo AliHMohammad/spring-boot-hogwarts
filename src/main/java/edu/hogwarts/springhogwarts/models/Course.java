@@ -97,6 +97,10 @@ public class Course {
         if (this.teacher.equals(teacher)) setTeacher(null);
     }
 
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
+
     @Override
     public String toString() {
         return "Course{" +

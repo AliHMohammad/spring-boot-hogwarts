@@ -20,7 +20,10 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -57,8 +60,23 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
-        //TODO: POST a full course giver null-værdier tilbage ved students og teacher. FIX
-        return courseRepository.save(course);
+        //Vi gør det manuelt for at UNDGÅ at få null-værdier på teacher- og students properties i res json
+        Course c = new Course();
+        c.setSubject(course.getSubject());
+        c.setSchoolyear(course.getSchoolyear());
+        c.setCurrent(course.isCurrent());
+
+        if (course.getTeacher() != null) {
+            c.setTeacher(teacherRepository.findById(course.getTeacher().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Teacher not found")));
+        }
+
+        if (course.getStudents() != null) {
+            Set<Long> studentIds = course.getStudents().stream().map((student) -> student.getId()).collect(Collectors.toSet());
+            c.setStudents(new HashSet<>(studentRepository.findAllById(studentIds)));
+        }
+
+        return courseRepository.save(c);
     }
 
     @Transactional
