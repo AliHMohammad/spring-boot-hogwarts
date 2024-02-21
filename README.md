@@ -7,5 +7,5 @@
 
 ## Database Strategy
 
-I have chosen a virtual machine with a MySQL Docker Image hosted on Azure as my database.
+I have chosen a virtual machine with a MySQL Docker Container hosted on Azure as my database.
 
