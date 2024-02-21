@@ -113,8 +113,34 @@ public class CourseServiceTest {
         verify(courseRepository, never()).save(any());
     }
 
-    public void testAssignStudentsToCourseName_Success() {
+    @Test
+    public void testAssignStudentsToCourseName_Success() throws BadRequestException {
+        Course course = new Course();
+        Student student = new Student();
 
+        long courseId = 1L;
+        String fullName = "Ali Mohammad";
+        course.setId(courseId);
+        student.setFullName(fullName);
+        course.setSchoolyear(2023);
+        student.setSchoolYear(2023);
+
+        StudentDTONamesList studentDTOnamesList = new StudentDTONamesList(Arrays.asList(fullName));
+
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+        when(studentRepository.findFirstByFirstNameContainingOrLastNameContaining(student.getFirstName(), student.getLastName())).thenReturn(Optional.of(student));
+
+        // Calling the method under test
+        courseService.AssignStudentsToCourseWithNames(courseId, studentDTOnamesList);
+
+        // Verifying behavior
+        ArgumentCaptor<Course> courseArgumentCaptor = ArgumentCaptor.forClass(Course.class);
+        verify(courseRepository, times(1)).save(courseArgumentCaptor.capture());
+
+        // Asserting the captured values
+        assertEquals(courseId, courseArgumentCaptor.getValue().getId());
+        assertEquals(1, courseArgumentCaptor.getValue().getStudents().size());
+        assertTrue(courseArgumentCaptor.getValue().getStudents().contains(student));
     }
 
     @Test
