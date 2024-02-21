@@ -73,61 +73,34 @@ public class CourseServiceTest {
 
         StudentDTOIdsList studentDTOIdsList = new StudentDTOIdsList(List.of(studentId));
 
-        //when
+        // Stubbing repository methods
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
-        when(courseDTOMapper.apply(course)).thenReturn(courseDTOMapper.apply(course));
-        //CourseDTO result = courseService.AssignStudentsToCourse(courseId, studentDTOIdsList);
 
-        ArgumentCaptor<CourseDTO> courseDTOArgumentCaptor = ArgumentCaptor.forClass(CourseDTO.class);
+        // Calling the method under test
+        courseService.AssignStudentsToCourse(courseId, studentDTOIdsList);
 
-        //then
-        assertEquals(courseId, courseDTOArgumentCaptor.capture().id());
-        assertEquals(1, courseDTOArgumentCaptor.capture().students().size());
-        assertTrue(course.getStudents().contains(student));
-        verify(courseRepository, times(1)).save(course);
+        // Verifying behavior
+        ArgumentCaptor<Course> courseArgumentCaptor = ArgumentCaptor.forClass(Course.class);
+        verify(courseRepository, times(1)).save(courseArgumentCaptor.capture());
+
+        // Asserting the captured values
+        assertEquals(courseId, courseArgumentCaptor.getValue().getId());
+        assertEquals(1, courseArgumentCaptor.getValue().getStudents().size());
+        assertTrue(courseArgumentCaptor.getValue().getStudents().contains(student));
     }
 
-
-    public void testAssignStudentsToCourse_CourseNotFound() {
-        long courseId = 1L;
-        StudentDTOIdsList studentDTOIdsList = new StudentDTOIdsList(Collections.singletonList(100L));
-
-        when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> {
-            courseService.AssignStudentsToCourse(courseId, studentDTOIdsList);
-        });
-        verify(studentRepository, never()).findById(anyLong());
-        verify(courseRepository, never()).save(any());
-    }
-
-
-    public void testAssignStudentsToCourse_StudentNotFound() {
-        long courseId = 1L;
-        long studentId = 100L;
-        Course course = new Course();
-        course.setId(courseId);
-        StudentDTOIdsList studentDTOIdsList = new StudentDTOIdsList(Arrays.asList(studentId));
-
-        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
-        when(studentRepository.findById(studentId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> {
-            courseService.AssignStudentsToCourse(courseId, studentDTOIdsList);
-        });
-        verify(courseRepository, never()).save(any());
-    }
-
-
+    @Test
     public void testAssignStudentsToCourse_StudentSchoolYearMismatch() {
+        Course course = new Course();
+        Student student = new Student();
+
         long courseId = 1L;
         long studentId = 100L;
-        Course course = new Course();
         course.setId(courseId);
-        StudentDTOIdsList studentDTOIdsList = new StudentDTOIdsList(Arrays.asList(studentId));
-        Student student = new Student();
         student.setId(studentId);
+
+        StudentDTOIdsList studentDTOIdsList = new StudentDTOIdsList(Arrays.asList(studentId));
         student.setSchoolYear(2023);
 
         when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
