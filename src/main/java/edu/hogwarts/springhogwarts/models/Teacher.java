@@ -48,8 +48,8 @@ public class Teacher {
 
     @ManyToOne()
     @JoinColumn(
-            name = "house_id",
-            referencedColumnName = "id"
+            name = "house",
+            referencedColumnName = "name"
     )
     private House house;
 
@@ -94,6 +94,10 @@ public class Teacher {
         return employment;
     }
 
+    public String getEmploymentToString() {
+        return employment == null ? null : employment.toString();
+    }
+
     public void setEmployment(EmploymentType employment) {
         this.employment = employment;
     }
@@ -119,7 +123,7 @@ public class Teacher {
     }
 
     public House getHouse() {
-        return house;
+        return house == null ? null : house;
     }
 
     public void setHouse(House house) {
@@ -157,7 +161,6 @@ public class Teacher {
 
     public void removeCourse(Course course) {
         this.courses.remove(course);
-        course.setTeacher(null);
     }
 
     public void assignCourse(Course course) {

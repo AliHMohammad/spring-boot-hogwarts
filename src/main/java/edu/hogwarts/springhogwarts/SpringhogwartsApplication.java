@@ -8,6 +8,7 @@ public class SpringhogwartsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringhogwartsApplication.class, args);
+        //TODO: Mangler tests. Se opgave.
     }
 
 }

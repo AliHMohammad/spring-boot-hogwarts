@@ -4,9 +4,7 @@ package edu.hogwarts.springhogwarts.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -30,9 +28,15 @@ public class Student {
     @Past(message = "dateOfBirth must be in the past time")
     @NotNull(message = "dateOfBirth must not be null")
     private LocalDate dateOfBirth;
+
+    @Min(value = 1, message = "Minimum schoolYear is 1")
+    @Max(value = 7, message = "Maximum schoolYear is 7")
+    private int schoolYear;
+
+    @NotNull(message = "prefect must not be null")
     private boolean prefect;
     private int enrollmentYear;
-    private int graduationYear;
+    private Integer graduationYear;
     private boolean graduated;
 
 
@@ -44,8 +48,8 @@ public class Student {
             cascade = CascadeType.REMOVE
     )
     @JoinColumn(
-            name = "house_id",
-            referencedColumnName = "id"
+            name = "house",
+            referencedColumnName = "name"
     )
     private House house;
 
@@ -65,9 +69,13 @@ public class Student {
     public Student() {
     }
 
-    public Student(String fullname, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, int graduationYear,
+    public Student(String fullName) {
+        this(fullName, null, false, 0, 0, false);
+    }
+
+    public Student(String fullName, LocalDate dateOfBirth, boolean prefect, int enrollmentYear, Integer graduationYear,
                    boolean graduated) {
-        setFullName(fullname);
+        setFullName(fullName);
         this.dateOfBirth = dateOfBirth;
         this.prefect = prefect;
         this.enrollmentYear = enrollmentYear;
@@ -108,12 +116,13 @@ public class Student {
         this.enrollmentYear = enrollmentYear;
     }
 
-    public int getGraduationYear() {
+    public Integer getGraduationYear() {
         return graduationYear;
     }
 
-    public void setGraduationYear(int graduationYear) {
+    public void setGraduationYear(Integer graduationYear) {
         this.graduationYear = graduationYear;
+        setGraduated(this.graduationYear != null);
     }
 
     public boolean isGraduated() {
@@ -177,7 +186,13 @@ public class Student {
         return lastName;
     }
 
+    public int getSchoolYear() {
+        return schoolYear;
+    }
 
+    public void setSchoolYear(int schoolYear) {
+        this.schoolYear = schoolYear;
+    }
 
     @Override
     public String toString() {

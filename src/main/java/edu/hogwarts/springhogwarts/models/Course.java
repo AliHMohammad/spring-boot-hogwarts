@@ -2,8 +2,10 @@ package edu.hogwarts.springhogwarts.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import org.apache.coyote.BadRequestException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +20,8 @@ public class Course {
     @NotBlank(message = "subject must not be blank")
     private String subject;
 
-    @Min(value = 1800, message = "schoolyear must be later than 1800")
+    @Min(value = 1, message = "schoolyear must be minimum 1")
+    @Max(value = 7, message = "schoolyear must be maximum 7")
     private int schoolyear;
     private boolean current;
 
@@ -84,7 +87,6 @@ public class Course {
 
     public void removeStudent(Student student) {
         this.students.remove(student);
-        student.removeCourse(this);
     }
 
     public void setTeacher(Teacher teacher) {
@@ -92,8 +94,11 @@ public class Course {
     }
 
     public void removeTeacher(Teacher teacher) {
-        setTeacher(null);
-        teacher.removeCourse(this);
+        if (this.teacher.equals(teacher)) setTeacher(null);
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     @Override

@@ -2,6 +2,7 @@ package edu.hogwarts.springhogwarts.Utility;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -33,6 +34,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleNotFoundException(EntityNotFoundException ex) {
         return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> BadRequestException(BadRequestException ex) {
+        return new ResponseEntity<>(Map.of("error", ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+
 }
 
 

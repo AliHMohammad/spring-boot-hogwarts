@@ -19,42 +19,73 @@ INSERT INTO hogwarts_db.house (founder, name) VALUES ( 'Rowena Ravenclaw', 'Rave
 
 /* HOUSES_COLORS */
 
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (1, 1);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (2, 1);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (3, 2);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (4, 2);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (5, 3);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (6, 3);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (7, 4);
-INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (8, 4);
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (1, 'Slytherin');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (2, 'Slytherin');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (3, 'Gryffindor');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (4, 'Gryffindor');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (5, 'HufflePuff');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (6, 'HufflePuff');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (7, 'Ravenclaw');
+INSERT INTO hogwarts_db.houses_colors (color_id, house_id) VALUES (8, 'Ravenclaw');
 
 
 /* STUDENTS */
 
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (1, 'Vincent', null, 'Crabbe', '1980-09-01', 1991, 1998, false, true);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (4, 'Terry', null, 'Boot', '1980-04-21', 1991, 1998, true, false);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (3, 'Susan', null, 'Bones', '1979-09-15', 1991, 1998, true, false);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (4, 'Sue', null, 'Li', '1979-09-30', 1991, 1998, true, true);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (2, 'Neville', null, 'Longbottom', '1980-07-30', 1991, 1998, true, true);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (4, 'Michael', null, 'Cornor', '1979-09-21', 1991, 1998, true, false);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (2, 'Lavender', null, 'Brown', '1979-01-09', 1991, 1998, false, false);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (2, 'Hermione', null, 'Granger', '1979-09-19', 1991, 1998, true, true);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (2, 'Harry', null, 'Potter', '1980-07-31', 1991, 1998, true, true);
-INSERT INTO hogwarts_db.student ( house_id, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect) VALUES (3, 'Hannah', null, 'Abbott', '1979-09-01', 1991, 1998, true, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Slytherin', 'Vincent', null, 'Crabbe', '1980-09-01', 1991, 1998, true, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Gryffindor', 'Neville', null, 'Longbottom', '1980-07-30', 1991, 1998, true, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Gryffindor', 'Lavender', null, 'Brown', '1979-01-09', 1991, null, false, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Gryffindor', 'Hermione', null, 'Granger', '1979-09-19', 1991, 1998, true, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Gryffindor', 'Harry', null, 'Potter', '1980-07-31', 1991, null, false, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'HufflePuff', 'Susan', null, 'Bones', '1979-09-15', 1991, null, false, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'HufflePuff', 'Hannah', null, 'Abbott', '1979-09-01', 1991, null, false, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Ravenclaw', 'Sue', null, 'Li', '1979-09-30', 1991, null, false, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Ravenclaw', 'Michael', null, 'Cornor', '1979-09-21', 1991, 1998, true, false);
+INSERT INTO hogwarts_db.student ( school_year, house, first_name, middle_name, last_name, date_of_birth, enrollment_year, graduation_year, graduated, prefect)
+VALUES
+                                                                                                                                                       (1,
+                                                                                                                                                        'Ravenclaw', 'Terry', null, 'Boot', '1980-04-21', 1991, 1998, true, false);
 
 /* TEACHERS */
 
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (2, 'Albus', 'Percival Wulfric Brian', 'Dumbledore', '1881-08-16', null, '1966-02-12', null, false);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (2, 'Minerva', null, 'McGonegall', '1890-10-04', null, '1950-06-22', null, true);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (3, 'Pomona', null, 'Sprout', '1910-05-15', null, '1955-10-05', null, true);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (4, 'Filius', null, 'Flitwick', '1958-10-17', null, '1978-11-20', null, true);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (1, 'Severus', null, 'Snape', '1960-01-09', null, '1980-12-22', '1990-10-13', true);
-INSERT INTO hogwarts_db.teacher (house_id, first_name, middle_name, last_name, date_of_birth, employment, employment_start, employment_end, head_of_house) VALUES (1, 'Horace', null, 'Slughorn', '1913-04-28', null, '2000-12-12', null, false);
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment)
+VALUES ('1913-04-28', null, '2000-12-12', false, 1, 'Horace', 'Slytherin', 'Slughorn', null, 'Deceased');
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment) VALUES ('1960-01-09', '1990-10-13', '1980-12-22', true, 2, 'Severus', 'Slytherin', 'Snape', null, 'Discharged');
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment) VALUES ('1881-08-16', null, '1966-02-12', false, 3, 'Albus', 'Gryffindor', 'Dumbledore', 'Percival Wulfric Brian', 'Tenured');
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment) VALUES ('1890-10-04', null, '1950-06-22', true, 4, 'Minerva', 'Gryffindor', 'McGonegall', null, 'Temporary');
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment) VALUES ('1910-05-15', null, '1955-10-05', true, 5, 'Pomona', 'HufflePuff', 'Sprout', null, 'Probation');
+INSERT INTO hogwarts_db.teacher (date_of_birth, employment_end, employment_start, head_of_house, id, first_name, house, last_name, middle_name, employment) VALUES ('1958-10-17', null, '1978-11-20', true, 6, 'Filius', 'Ravenclaw', 'Flitwick', null, 'Probation');
 
 /* COURSES */
 
-INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (2, 'Magic', 1991, true);
-INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (4, 'Discipline', 1995, true);
+INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (2, 'Magic', 1, true);
+INSERT INTO hogwarts_db.course (teacher_id, subject, schoolyear, current) VALUES (4, 'Discipline', 1, true);
 
 /* STUDENTS_COURSES */
 
