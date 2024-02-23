@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
+import edu.hogwarts.springhogwarts.dto.teacher.RequestTeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmployment;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmploymentEnd;
@@ -35,8 +36,8 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseTeacherDTO> registerNewTeacher(@Valid @RequestBody Teacher teacher) {
-        ResponseTeacherDTO createdTeacher = teacherService.createTeacher(teacher);
+    public ResponseEntity<ResponseTeacherDTO> registerNewTeacher(@Valid @RequestBody RequestTeacherDTO requestTeacherDTO) {
+        ResponseTeacherDTO createdTeacher = teacherService.createTeacher(requestTeacherDTO);
 
         //Vi bygger en location til response header
         URI location = ServletUriComponentsBuilder
@@ -54,8 +55,8 @@ public class TeacherController {
     }
 
     @PutMapping(path = "/{teacherId}")
-    public ResponseEntity<ResponseTeacherDTO> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody Teacher teacher) {
-        return ResponseEntity.ok(teacherService.updateTeacher(id, teacher));
+    public ResponseEntity<ResponseTeacherDTO> updateTeacher(@PathVariable("teacherId") long id, @Valid @RequestBody RequestTeacherDTO requestTeacherDTO) {
+        return ResponseEntity.ok(teacherService.updateTeacher(id, requestTeacherDTO));
     }
 
     @PatchMapping("/{teacherId}/headofhouse")

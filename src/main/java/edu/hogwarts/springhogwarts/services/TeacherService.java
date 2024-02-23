@@ -1,6 +1,8 @@
 package edu.hogwarts.springhogwarts.services;
 
 
+import edu.hogwarts.springhogwarts.dto.teacher.RequestTeacherDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.RequestTeacherDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTO;
 import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmployment;
@@ -20,11 +22,14 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final ResponseTeacherDTOMapper responseTeacherDTOMapper;
+    private final RequestTeacherDTOMapper requestTeacherDTOMapper;
 
 
-    public TeacherService(TeacherRepository teacherRepository, ResponseTeacherDTOMapper responseTeacherDTOMapper) {
+    public TeacherService(TeacherRepository teacherRepository, ResponseTeacherDTOMapper responseTeacherDTOMapper,
+                          RequestTeacherDTOMapper requestTeacherDTOMapper) {
         this.teacherRepository = teacherRepository;
         this.responseTeacherDTOMapper = responseTeacherDTOMapper;
+        this.requestTeacherDTOMapper = requestTeacherDTOMapper;
     }
 
 
@@ -44,7 +49,8 @@ public class TeacherService {
         return responseTeacherDTOMapper.apply(teacher);
     }
 
-    public ResponseTeacherDTO createTeacher(Teacher teacher) {
+    public ResponseTeacherDTO createTeacher(RequestTeacherDTO requestTeacherDTO) {
+        Teacher teacher = requestTeacherDTOMapper.apply(requestTeacherDTO);
         teacherRepository.save(teacher);
         return responseTeacherDTOMapper.apply(teacher);
     }
@@ -67,10 +73,14 @@ public class TeacherService {
     }
 
     @Transactional
-    public ResponseTeacherDTO updateTeacher(long id, Teacher teacher) {
-        Teacher teacherInDb = teacherRepository.findById(id)
+    public ResponseTeacherDTO updateTeacher(long id, RequestTeacherDTO requestTeacherDTO) {
+        teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
+        Teacher teacher = requestTeacherDTOMapper.apply(requestTeacherDTO);
 
+        teacher.setId(id);
+
+        /*
         teacherInDb.setFullName(teacher.getFullName());
         teacherInDb.setDateOfBirth(teacher.getDateOfBirth());
         teacherInDb.setEmployment(teacher.getEmployment());
@@ -78,8 +88,10 @@ public class TeacherService {
         teacherInDb.setHeadOfHouse(teacher.isHeadOfHouse());
         teacherInDb.setEmploymentStart(teacher.getEmploymentStart());
         teacherInDb.setEmploymentEnd(teacher.getEmploymentEnd());
+        */
 
-        return responseTeacherDTOMapper.apply(teacherInDb);
+        teacherRepository.save(teacher);
+        return responseTeacherDTOMapper.apply(teacher);
     }
 
     public ResponseTeacherDTO updateTeacherHeadOfHouse(TeacherDTOHeadOfHouse teacherDTOHeadOfHouse, long id) {
