@@ -2,7 +2,7 @@
 [![Build and deploy JAR app to Azure Web App - hogwarts-springboot](https://github.com/AliHMohammad/spring-boot-hogwarts/actions/workflows/main_hogwarts-springboot.yml/badge.svg)](https://github.com/AliHMohammad/spring-boot-hogwarts/actions/workflows/main_hogwarts-springboot.yml)
 
 ## Deployed Backend
-[Hosted on Azure](hogwarts-springboot.azurewebsites.net)
+[Hosted on Azure](https://hogwarts-springboot.azurewebsites.net/)
 
 
 ## Database Strategy
