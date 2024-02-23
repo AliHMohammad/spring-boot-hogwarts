@@ -1,6 +1,6 @@
 package edu.hogwarts.springhogwarts.services;
 
-import edu.hogwarts.springhogwarts.dto.house.HouseDTO;
+import edu.hogwarts.springhogwarts.dto.house.ResponseHouseDTO;
 import edu.hogwarts.springhogwarts.models.House;
 import edu.hogwarts.springhogwarts.repositories.HouseRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,23 +17,23 @@ public class HouseService {
         this.houseRepository = houseRepository;
     }
 
-    public List<HouseDTO> getAllHouses() {
+    public List<ResponseHouseDTO> getAllHouses() {
         List<House> houses = houseRepository.findAll();
-        List<HouseDTO> houseDTOS = houses.stream()
-                .map(house -> new HouseDTO(
+        List<ResponseHouseDTO> responseHouseDTOS = houses.stream()
+                .map(house -> new ResponseHouseDTO(
                         house.getName(),
                         house.getFounder(),
                         house.getColors().stream().map(c -> c.getName()).toList()
                 )).toList();
 
-        return houseDTOS;
+        return responseHouseDTOS;
     }
 
-    public HouseDTO getSingleHouse(String name) {
+    public ResponseHouseDTO getSingleHouse(String name) {
         House house = houseRepository.findById(name)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find House by name " + name));
 
-        return new HouseDTO(
+        return new ResponseHouseDTO(
                 house.getName(),
                 house.getFounder(),
                 house.getColors().stream().map(c -> c.getName()).toList()

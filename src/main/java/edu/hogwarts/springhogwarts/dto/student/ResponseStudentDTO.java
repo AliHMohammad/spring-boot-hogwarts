@@ -2,7 +2,7 @@ package edu.hogwarts.springhogwarts.dto.student;
 
 import java.time.LocalDate;
 
-public record StudentDTO(
+public record ResponseStudentDTO(
         Long id,
         String firstName,
         String middleName,

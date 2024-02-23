@@ -3,30 +3,25 @@ package edu.hogwarts.springhogwarts.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import edu.hogwarts.springhogwarts.dto.course.CourseDTO;
-import edu.hogwarts.springhogwarts.dto.course.CourseDTOMapper;
-import edu.hogwarts.springhogwarts.dto.student.StudentDTOMapper;
+import edu.hogwarts.springhogwarts.dto.course.ResponseCourseDTOMapper;
+import edu.hogwarts.springhogwarts.dto.student.ResponseStudentDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTONamesList;
-import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
+import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTOMapper;
 import edu.hogwarts.springhogwarts.models.Course;
 import edu.hogwarts.springhogwarts.models.Student;
 import edu.hogwarts.springhogwarts.repositories.CourseRepository;
 import edu.hogwarts.springhogwarts.repositories.StudentRepository;
 import edu.hogwarts.springhogwarts.repositories.TeacherRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,19 +38,20 @@ public class CourseServiceTest {
     private TeacherRepository teacherRepository;
 
     @Mock
-    private CourseDTOMapper courseDTOMapper;
+    private ResponseCourseDTOMapper responseCourseDTOMapper;
 
     @Mock
-    private StudentDTOMapper studentDTOMapper;
+    private ResponseStudentDTOMapper responseStudentDTOMapper;
 
     @Mock
-    private TeacherDTOMapper teacherDTOMapper;
+    private ResponseTeacherDTOMapper responseTeacherDTOMapper;
 
     private CourseService courseService;
 
     @BeforeEach
     public void setUp() {
-        courseService = new CourseService(courseRepository, teacherRepository, studentRepository, courseDTOMapper, studentDTOMapper, teacherDTOMapper);
+        courseService = new CourseService(courseRepository, teacherRepository, studentRepository, responseCourseDTOMapper, responseStudentDTOMapper,
+                responseTeacherDTOMapper);
     }
 
 

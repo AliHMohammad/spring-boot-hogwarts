@@ -1,6 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
-import edu.hogwarts.springhogwarts.dto.house.HouseDTO;
+import edu.hogwarts.springhogwarts.dto.house.ResponseHouseDTO;
 import edu.hogwarts.springhogwarts.services.HouseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +22,12 @@ public class HouseController {
 
 
     @GetMapping
-    public ResponseEntity<List<HouseDTO>> getAllHouses() {
+    public ResponseEntity<List<ResponseHouseDTO>> getAllHouses() {
         return ResponseEntity.ok(houseService.getAllHouses());
     }
 
     @GetMapping("/{houseName}")
-    public ResponseEntity<HouseDTO> getSingleHouse(@PathVariable("houseName") String name) {
+    public ResponseEntity<ResponseHouseDTO> getSingleHouse(@PathVariable("houseName") String name) {
         return ResponseEntity.ok(houseService.getSingleHouse(name));
     }
 }

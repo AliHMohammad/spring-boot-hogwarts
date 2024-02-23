@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class TeacherDTOMapper implements Function<Teacher, TeacherDTO> {
+public class ResponseTeacherDTOMapper implements Function<Teacher, ResponseTeacherDTO> {
     @Override
-    public TeacherDTO apply(Teacher teacher) {
-        return new TeacherDTO(
+    public ResponseTeacherDTO apply(Teacher teacher) {
+        return new ResponseTeacherDTO(
                 teacher.getId(),
                 teacher.getFirstName(),
                 teacher.getMiddleName(),

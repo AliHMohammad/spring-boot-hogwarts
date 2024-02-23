@@ -1,8 +1,8 @@
 package edu.hogwarts.springhogwarts.services;
 
 
-import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTO;
-import edu.hogwarts.springhogwarts.dto.teacher.TeacherDTOMapper;
+import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTO;
+import edu.hogwarts.springhogwarts.dto.teacher.ResponseTeacherDTOMapper;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmployment;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOEmploymentEnd;
 import edu.hogwarts.springhogwarts.dto.teacher.request.TeacherDTOHeadOfHouse;
@@ -14,47 +14,46 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
-    private final TeacherDTOMapper teacherDTOMapper;
+    private final ResponseTeacherDTOMapper responseTeacherDTOMapper;
 
 
-    public TeacherService(TeacherRepository teacherRepository, TeacherDTOMapper teacherDTOMapper) {
+    public TeacherService(TeacherRepository teacherRepository, ResponseTeacherDTOMapper responseTeacherDTOMapper) {
         this.teacherRepository = teacherRepository;
-        this.teacherDTOMapper = teacherDTOMapper;
+        this.responseTeacherDTOMapper = responseTeacherDTOMapper;
     }
 
 
 
 
-    public List<TeacherDTO> getTeachers() {
+    public List<ResponseTeacherDTO> getTeachers() {
         return teacherRepository.findAll()
                 .stream()
-                .map(teacherDTOMapper)
+                .map(responseTeacherDTOMapper)
                 .toList();
     }
 
-    public TeacherDTO getSingleTeacher(long id) {
+    public ResponseTeacherDTO getSingleTeacher(long id) {
         Teacher teacher = teacherRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Could not find teacher by id"));
 
-        return teacherDTOMapper.apply(teacher);
+        return responseTeacherDTOMapper.apply(teacher);
     }
 
-    public TeacherDTO createTeacher(Teacher teacher) {
+    public ResponseTeacherDTO createTeacher(Teacher teacher) {
         teacherRepository.save(teacher);
-        return teacherDTOMapper.apply(teacher);
+        return responseTeacherDTOMapper.apply(teacher);
     }
 
 
-    public TeacherDTO deleteTeacher(long id) {
+    public ResponseTeacherDTO deleteTeacher(long id) {
         Teacher teacherInDb = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found"));
-        TeacherDTO teacherDTO = teacherDTOMapper.apply(teacherInDb);
+        ResponseTeacherDTO responseTeacherDTO = responseTeacherDTOMapper.apply(teacherInDb);
 
 
         for (Course course: teacherInDb.getCourses()) {
@@ -64,11 +63,11 @@ public class TeacherService {
         teacherInDb.setHouse(null);
         teacherRepository.delete(teacherInDb);
 
-        return teacherDTO;
+        return responseTeacherDTO;
     }
 
     @Transactional
-    public TeacherDTO updateTeacher(long id, Teacher teacher) {
+    public ResponseTeacherDTO updateTeacher(long id, Teacher teacher) {
         Teacher teacherInDb = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
 
@@ -80,36 +79,36 @@ public class TeacherService {
         teacherInDb.setEmploymentStart(teacher.getEmploymentStart());
         teacherInDb.setEmploymentEnd(teacher.getEmploymentEnd());
 
-        return teacherDTOMapper.apply(teacherInDb);
+        return responseTeacherDTOMapper.apply(teacherInDb);
     }
 
-    public TeacherDTO updateTeacherHeadOfHouse(TeacherDTOHeadOfHouse teacherDTOHeadOfHouse, long id) {
+    public ResponseTeacherDTO updateTeacherHeadOfHouse(TeacherDTOHeadOfHouse teacherDTOHeadOfHouse, long id) {
         Teacher teacherInDb = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
 
         teacherInDb.setHeadOfHouse(teacherDTOHeadOfHouse.headOfHouse());
 
         teacherRepository.save(teacherInDb);
-        return teacherDTOMapper.apply(teacherInDb);
+        return responseTeacherDTOMapper.apply(teacherInDb);
     }
 
-    public TeacherDTO updateTeacherEmploymentEnd(TeacherDTOEmploymentEnd teacherDTOEmploymentEnd, long id) {
+    public ResponseTeacherDTO updateTeacherEmploymentEnd(TeacherDTOEmploymentEnd teacherDTOEmploymentEnd, long id) {
         Teacher teacherInDb = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
 
         teacherInDb.setEmploymentEnd(teacherDTOEmploymentEnd.employmentEnd());
 
         teacherRepository.save(teacherInDb);
-        return teacherDTOMapper.apply(teacherInDb);
+        return responseTeacherDTOMapper.apply(teacherInDb);
     }
 
-    public TeacherDTO updateTeacherEmployment(TeacherDTOEmployment teacherDTOEmployment, long id) {
+    public ResponseTeacherDTO updateTeacherEmployment(TeacherDTOEmployment teacherDTOEmployment, long id) {
         Teacher teacherInDb = teacherRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find teacher by id"));
 
         teacherInDb.setEmployment(teacherDTOEmployment.employment());
 
         teacherRepository.save(teacherInDb);
-        return teacherDTOMapper.apply(teacherInDb);
+        return responseTeacherDTOMapper.apply(teacherInDb);
     }
 }
