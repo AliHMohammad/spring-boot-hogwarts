@@ -1,5 +1,6 @@
 package edu.hogwarts.springhogwarts.controllers;
 
+import edu.hogwarts.springhogwarts.dto.course.RequestCourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.ResponseCourseDTO;
 import edu.hogwarts.springhogwarts.dto.student.ResponseStudentDTO;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
@@ -50,21 +51,21 @@ public class CourseController {
 
 
     @PostMapping
-    public ResponseEntity<Course> createCourse(@Valid @RequestBody Course course) {
-        Course createdCourse = courseService.createCourse(course);
+    public ResponseEntity<ResponseCourseDTO> createCourse(@Valid @RequestBody RequestCourseDTO requestCourseDTO) {
+        ResponseCourseDTO createdCourse = courseService.createCourse(requestCourseDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdCourse.getId())
+                .buildAndExpand(createdCourse.id())
                 .toUri();
 
         return ResponseEntity.created(location).body(createdCourse);
     }
 
     @PutMapping("/{courseId}")
-    public ResponseEntity<ResponseCourseDTO> updateCourse(@Valid @RequestBody Course course, @PathVariable("courseId") long id) {
-        return ResponseEntity.ok(courseService.updateCourse(course, id));
+    public ResponseEntity<ResponseCourseDTO> updateCourse(@Valid @RequestBody RequestCourseDTO requestCourseDTO, @PathVariable("courseId") long id) {
+        return ResponseEntity.ok(courseService.updateCourse(requestCourseDTO, id));
     }
 
 

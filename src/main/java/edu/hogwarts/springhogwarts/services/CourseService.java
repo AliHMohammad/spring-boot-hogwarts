@@ -1,5 +1,7 @@
 package edu.hogwarts.springhogwarts.services;
 
+import edu.hogwarts.springhogwarts.dto.course.RequestCourseDTO;
+import edu.hogwarts.springhogwarts.dto.course.RequestCourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.course.ResponseCourseDTO;
 import edu.hogwarts.springhogwarts.dto.course.ResponseCourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.ResponseStudentDTO;
@@ -34,14 +36,17 @@ public class CourseService {
     private final ResponseCourseDTOMapper responseCourseDTOMapper;
     private final ResponseTeacherDTOMapper responseTeacherDTOMapper;
     private final ResponseStudentDTOMapper responseStudentDTOMapper;
+    private final RequestCourseDTOMapper requestCourseDTOMapper;
 
-    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, ResponseCourseDTOMapper responseCourseDTOMapper, ResponseStudentDTOMapper responseStudentDTOMapper, ResponseTeacherDTOMapper responseTeacherDTOMapper) {
+    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, StudentRepository studentRepository, ResponseCourseDTOMapper responseCourseDTOMapper, ResponseStudentDTOMapper responseStudentDTOMapper, ResponseTeacherDTOMapper responseTeacherDTOMapper,
+                         RequestCourseDTOMapper requestCourseDTOMapper) {
         this.courseRepository = courseRepository;
         this.teacherRepository = teacherRepository;
         this.studentRepository = studentRepository;
         this.responseCourseDTOMapper = responseCourseDTOMapper;
         this.responseTeacherDTOMapper = responseTeacherDTOMapper;
         this.responseStudentDTOMapper = responseStudentDTOMapper;
+        this.requestCourseDTOMapper = requestCourseDTOMapper;
     }
 
 
@@ -59,37 +64,22 @@ public class CourseService {
                 .toList();
     }
 
-    public Course createCourse(Course course) {
-        //Vi gør det manuelt for at UNDGÅ at få null-værdier på teacher- og students properties i res json
-        Course c = new Course();
-        c.setSubject(course.getSubject());
-        c.setSchoolyear(course.getSchoolyear());
-        c.setCurrent(course.isCurrent());
-
-        if (course.getTeacher() != null) {
-            c.setTeacher(teacherRepository.findById(course.getTeacher().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Teacher not found")));
-        }
-
-        if (course.getStudents() != null) {
-            Set<Long> studentIds = course.getStudents().stream().map((student) -> student.getId()).collect(Collectors.toSet());
-            c.setStudents(new HashSet<>(studentRepository.findAllById(studentIds)));
-        }
-
-        return courseRepository.save(c);
+    public ResponseCourseDTO createCourse(RequestCourseDTO requestCourseDTO) {
+        Course c = requestCourseDTOMapper.apply(requestCourseDTO);
+        courseRepository.save(c);
+        return responseCourseDTOMapper.apply(c);
     }
 
     @Transactional
-    public ResponseCourseDTO updateCourse(Course course, long id) {
-        Course courseInDb = courseRepository.findById(id)
+    public ResponseCourseDTO updateCourse(RequestCourseDTO requestCourseDTO, long id) {
+        courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        Course course = requestCourseDTOMapper.apply(requestCourseDTO);
 
+        course.setId(id);
 
-        courseInDb.setCurrent(course.isCurrent());
-        courseInDb.setSchoolyear(course.getSchoolyear());
-        courseInDb.setSubject(course.getSubject());
-
-        return responseCourseDTOMapper.apply(courseInDb);
+        courseRepository.save(course);
+        return responseCourseDTOMapper.apply(course);
     }
 
     public ResponseCourseDTO deleteCourse(long id) {

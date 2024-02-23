@@ -3,6 +3,7 @@ package edu.hogwarts.springhogwarts.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import edu.hogwarts.springhogwarts.dto.course.RequestCourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.course.ResponseCourseDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.ResponseStudentDTOMapper;
 import edu.hogwarts.springhogwarts.dto.student.request.StudentDTOIdsList;
@@ -46,12 +47,15 @@ public class CourseServiceTest {
     @Mock
     private ResponseTeacherDTOMapper responseTeacherDTOMapper;
 
+    @Mock
+    private RequestCourseDTOMapper requestCourseDTOMapper;
+
     private CourseService courseService;
 
     @BeforeEach
     public void setUp() {
         courseService = new CourseService(courseRepository, teacherRepository, studentRepository, responseCourseDTOMapper, responseStudentDTOMapper,
-                responseTeacherDTOMapper);
+                responseTeacherDTOMapper, requestCourseDTOMapper);
     }
 
 
