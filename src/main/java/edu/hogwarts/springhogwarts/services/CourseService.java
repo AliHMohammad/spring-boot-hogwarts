@@ -43,10 +43,10 @@ public class CourseService {
         this.courseRepository = courseRepository;
         this.teacherRepository = teacherRepository;
         this.studentRepository = studentRepository;
-        this.responseCourseDTOMapper = responseCourseDTOMapper;
         this.responseTeacherDTOMapper = responseTeacherDTOMapper;
         this.responseStudentDTOMapper = responseStudentDTOMapper;
         this.requestCourseDTOMapper = requestCourseDTOMapper;
+        this.responseCourseDTOMapper = responseCourseDTOMapper;
     }
 
 
